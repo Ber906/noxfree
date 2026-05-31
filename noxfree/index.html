@@ -6,6 +6,8 @@
   <title>NoXFree &mdash; No fee. All play.</title>
   <!-- ADDED BY REPLIT AI — Monetag site verification -->
   <meta name="monetag" content="ae8dbe50853a4338b0a75624075c1dde">
+  <!-- ADDED BY REPLIT AI — Monetag Onclick (Popunder) zone 11080376 -->
+  <script>(function(s){s.dataset.zone='11080376',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
   <meta name="description" content="NoXFree &mdash; stream movies, TV series and anime free. No subscriptions. No fees. Zero bayad, zero bitin."/>
   <meta name="theme-color" content="#060714"/>
   <style>
@@ -2334,36 +2336,21 @@ function showToast(msg, duration) {
 //
 //   STEP 3 — Replace "YOUR_ZONE_ID" below with that number. Done!
 //
-var MONETAG_ZONE_ID = "YOUR_ZONE_ID"; // ← paste your Zone ID here
+// ADDED BY REPLIT AI — Monetag Onclick (Popunder) zone ID
+var MONETAG_ZONE_ID = "11080376";
 
 function playRewardAd() {
-  // ADDED BY REPLIT AI — Monetag Interstitial trigger
+  // ADDED BY REPLIT AI — Monetag Onclick/Popunder trigger
+  // The Monetag script in <head> already listens for clicks on the page.
+  // This button click fires the popunder automatically.
+  // We just disable the button briefly then thank the user.
   var watchAdBtn = document.getElementById("watchAdBtn");
   if (watchAdBtn) {
     watchAdBtn.disabled = true;
-    watchAdBtn.textContent = "Loading ad…";
+    watchAdBtn.textContent = "Opening ad…";
   }
-
-  if (!MONETAG_ZONE_ID || MONETAG_ZONE_ID === "YOUR_ZONE_ID") {
-    // No zone ID yet — simulate for testing
-    setTimeout(function() { onAdCompleted(); }, 1500);
-    return;
-  }
-
-  // Load and show Monetag interstitial
-  var s = document.createElement("script");
-  s.setAttribute("data-cfasync", "false");
-  s.async = true;
-  s.src = "//" + "whugeptie.com/" + MONETAG_ZONE_ID + "/invoke.js";
-  s.onload = function() {
-    // Monetag fires the ad automatically on load; mark complete after 5s
-    setTimeout(function() { onAdCompleted(); }, 5000);
-  };
-  s.onerror = function() {
-    // Ad failed to load — still thank user and re-enable button
-    onAdCompleted();
-  };
-  document.head.appendChild(s);
+  // Give the popunder a moment to open, then show thank-you toast
+  setTimeout(function() { onAdCompleted(); }, 2000);
 }
 
 // ADDED BY REPLIT AI — Called by your real ad SDK after the user watches the ad
