@@ -4,6 +4,12 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>NoXFree &mdash; No fee. All play.</title>
+  <!-- ADDED BY REPLIT AI ── Monetag site verification script -->
+  <!-- STEP 1: Replace the src below with the script URL Monetag gives you  -->
+  <!--         after adding your website. It looks like:                     -->
+  <!--         <script src="//whugeptie.com/YOUR_SITE_HASH/invoke.js" ...>   -->
+  <!--         Paste the ENTIRE <script> tag Monetag gives you here.         -->
+  <!-- MONETAG_SITE_SCRIPT_HERE -->
   <meta name="description" content="NoXFree &mdash; stream movies, TV series and anime free. No subscriptions. No fees. Zero bayad, zero bitin."/>
   <meta name="theme-color" content="#060714"/>
   <style>
@@ -2317,23 +2323,51 @@ function showToast(msg, duration) {
   setTimeout(function() { if (t.parentNode) t.parentNode.removeChild(t); }, duration);
 }
 
-// ADDED BY REPLIT AI — Reward ad placeholder
+// ADDED BY REPLIT AI — Monetag Interstitial integration
 // ─────────────────────────────────────────────────────────────────────────────
 // REPLACE THIS WITH YOUR REAL AD CODE - SEE GUIDE BELOW
 // ─────────────────────────────────────────────────────────────────────────────
-// See ADS_SETUP_GUIDE.md in this folder for 3 ad network options (AdSense,
-// AdinPlay, Monetag). Replace the body of this function with the ad SDK call.
+// HOW TO ACTIVATE (3 steps):
+//
+//   STEP 1 — Paste your Monetag site verification <script> tag inside <head>
+//            (see the MONETAG_SITE_SCRIPT_HERE comment near the top of this file)
+//
+//   STEP 2 — In your Monetag dashboard:
+//            Monetization → Add zone → choose "Interstitial" → Create
+//            Copy the Zone ID number (e.g. 8399217)
+//
+//   STEP 3 — Replace "YOUR_ZONE_ID" below with that number. Done!
+//
+var MONETAG_ZONE_ID = "YOUR_ZONE_ID"; // ← paste your Zone ID here
+
 function playRewardAd() {
-  // ADDED BY REPLIT AI — Simulates ad view for now (replace with real SDK)
+  // ADDED BY REPLIT AI — Monetag Interstitial trigger
   var watchAdBtn = document.getElementById("watchAdBtn");
   if (watchAdBtn) {
     watchAdBtn.disabled = true;
     watchAdBtn.textContent = "Loading ad…";
   }
-  // Placeholder: simulate a 3-second ad then fire the callback
-  setTimeout(function() {
+
+  if (!MONETAG_ZONE_ID || MONETAG_ZONE_ID === "YOUR_ZONE_ID") {
+    // No zone ID yet — simulate for testing
+    setTimeout(function() { onAdCompleted(); }, 1500);
+    return;
+  }
+
+  // Load and show Monetag interstitial
+  var s = document.createElement("script");
+  s.setAttribute("data-cfasync", "false");
+  s.async = true;
+  s.src = "//" + "whugeptie.com/" + MONETAG_ZONE_ID + "/invoke.js";
+  s.onload = function() {
+    // Monetag fires the ad automatically on load; mark complete after 5s
+    setTimeout(function() { onAdCompleted(); }, 5000);
+  };
+  s.onerror = function() {
+    // Ad failed to load — still thank user and re-enable button
     onAdCompleted();
-  }, 3000);
+  };
+  document.head.appendChild(s);
 }
 
 // ADDED BY REPLIT AI — Called by your real ad SDK after the user watches the ad
@@ -3003,6 +3037,12 @@ window.addEventListener("beforeunload", function() {
 
 // Start the app
 checkAuthAndStart();
+
+// ADDED BY REPLIT AI — Monetag service worker registration
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js", { scope: "/" })
+    .catch(function() {}); // silent — won't break site if it fails
+}
 </script>
 </body>
 </html>
