@@ -1033,6 +1033,13 @@ body.guest #mainApp{display:none}
         <div class="ep-grid" id="epButtons"></div>
       </div>
       <div class="player-actions" id="playerActions"></div>
+      <!-- ADDED BY REPLIT AI — Watch Ad to Support button -->
+      <div id="watchAdWrap" style="margin-top:.85rem">
+        <button id="watchAdBtn" class="btn btn-outline btn-sm" style="border-color:var(--gold);color:var(--gold);width:100%;-webkit-justify-content:center;justify-content:center;gap:.4rem">
+          &#9654; Watch Ad to Support NoXFree
+        </button>
+        <div style="font-size:.65rem;color:var(--muted);text-align:center;margin-top:.3rem">Optional &mdash; helps keep the site free</div>
+      </div>
     </div>
   </div>
 </div>
@@ -1979,8 +1986,10 @@ function openPlayer(m, resumeSeason, resumeEpisode) {
   document.getElementById("playerModal").classList.add("open");
   document.body.style.overflow = "hidden";
   paintPlayer(m, true);
-  // Fetch details if we only have basic info
-  if (m.tmdbId && !m.description && m.source === "tmdb") {
+  // FIXED BY REPLIT AI — also fetch detail when TV show has no seasons yet
+  // Original bug: condition only checked !m.description, but catalog cards already have
+  // descriptions from TMDB overview, so detail (which includes seasons) was never fetched
+  if (m.tmdbId && m.source === "tmdb" && (!m.description || (isTV && (!Array.isArray(m.seasons) || !m.seasons.length)))) {
     var type = m.mediaType === "tv" ? "tv" : "movie";
     api("/detail?id=" + m.tmdbId + "&type=" + type).then(function(r) {
       if (r && r.data) {
@@ -2286,6 +2295,60 @@ document.getElementById("anPlay").onclick = function() {
 document.getElementById("playerClose").onclick = closePlayer;
 document.getElementById("playerModal").addEventListener("click", function(e) {
   if (e.target.id === "playerModal") closePlayer();
+});
+
+// ADDED BY REPLIT AI — Toast notification helper
+function showToast(msg, duration) {
+  duration = duration || 3500;
+  var existing = document.getElementById("nxToast");
+  if (existing) existing.parentNode.removeChild(existing);
+  var t = document.createElement("div");
+  t.id = "nxToast";
+  t.textContent = msg;
+  t.style.cssText = [
+    "position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%)",
+    "background:rgba(20,28,53,.97);border:1.5px solid var(--brand)",
+    "color:#fff;font-size:.85rem;font-weight:600",
+    "padding:.65rem 1.4rem;border-radius:var(--r-sm)",
+    "box-shadow:var(--sh-panel);z-index:99999",
+    "pointer-events:none;white-space:nowrap"
+  ].join(";");
+  document.body.appendChild(t);
+  setTimeout(function() { if (t.parentNode) t.parentNode.removeChild(t); }, duration);
+}
+
+// ADDED BY REPLIT AI — Reward ad placeholder
+// ─────────────────────────────────────────────────────────────────────────────
+// REPLACE THIS WITH YOUR REAL AD CODE - SEE GUIDE BELOW
+// ─────────────────────────────────────────────────────────────────────────────
+// See ADS_SETUP_GUIDE.md in this folder for 3 ad network options (AdSense,
+// AdinPlay, Monetag). Replace the body of this function with the ad SDK call.
+function playRewardAd() {
+  // ADDED BY REPLIT AI — Simulates ad view for now (replace with real SDK)
+  var watchAdBtn = document.getElementById("watchAdBtn");
+  if (watchAdBtn) {
+    watchAdBtn.disabled = true;
+    watchAdBtn.textContent = "Loading ad…";
+  }
+  // Placeholder: simulate a 3-second ad then fire the callback
+  setTimeout(function() {
+    onAdCompleted();
+  }, 3000);
+}
+
+// ADDED BY REPLIT AI — Called by your real ad SDK after the user watches the ad
+function onAdCompleted() {
+  showToast("🙏 Thanks for supporting Noxfree!");
+  var watchAdBtn = document.getElementById("watchAdBtn");
+  if (watchAdBtn) {
+    watchAdBtn.disabled = false;
+    watchAdBtn.textContent = "▶ Watch Ad to Support NoXFree";
+  }
+}
+
+// ADDED BY REPLIT AI — Wire up the Watch Ad button
+document.getElementById("watchAdBtn").addEventListener("click", function() {
+  playRewardAd();
 });
 
 // ════════════════════════════════════════════════════════════
