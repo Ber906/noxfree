@@ -395,7 +395,7 @@ body.compact .grid6>*{width:calc(33.333% - .667rem)}
 .ep-btn:hover{border-color:rgba(88,101,242,.5);color:#fff}
 .ep-btn.on{background:linear-gradient(145deg,#6875f5,#5865f2);border-color:var(--brand);color:#fff;box-shadow:0 2px 8px rgba(88,101,242,.3)}
 .ep-btn.watched{border-color:var(--green);color:var(--green)}
-.player-actions{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:.6rem;margin-top:1.25rem}
+.player-actions{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:.5rem;margin-top:1rem;-webkit-align-items:flex-start;align-items:flex-start}
 
 /* ── POTATO DEVICE NOTICE ── */
 .potato-notice{
@@ -430,6 +430,194 @@ body.compact .grid6>*{width:calc(33.333% - .667rem)}
 }
 #aniSkipBadge.show{display:block}
 
+/* ══ PLAYER PROGRESS BAR ══ */
+#playerProgressBar{
+  position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:rgba(255,255,255,.12);z-index:12;pointer-events:none;
+}
+#playerProgressFill{
+  height:100%;background:var(--brand);max-width:100%;
+  box-shadow:0 0 8px rgba(88,101,242,.7);
+}
+/* ══ PLAYER TOP INFO OVERLAY ══ */
+#playerTopOverlay{
+  position:absolute;top:0;left:0;right:0;z-index:11;
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;
+  justify-content:space-between;padding:.6rem .85rem;
+  background:linear-gradient(to bottom,rgba(0,0,0,.7) 0%,transparent 100%);
+  pointer-events:none;
+  opacity:0;
+}
+#playerVideo:hover #playerTopOverlay{opacity:1}
+.ptop-epinfo{
+  font-size:.73rem;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.06em;
+  text-transform:uppercase;text-shadow:0 1px 4px rgba(0,0,0,.8);
+}
+.ptop-ep-title{
+  font-size:.8rem;font-weight:600;color:rgba(255,255,255,.85);
+  margin-top:.15rem;text-shadow:0 1px 4px rgba(0,0,0,.8);
+}
+#playerWatchedBtn{
+  pointer-events:all;
+  font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  padding:.3rem .75rem;border-radius:var(--r-xs);
+  border:1.5px solid rgba(59,165,93,.7);color:#3ba55d;background:rgba(0,0,0,.55);
+}
+#playerWatchedBtn.watched{
+  border-color:#3ba55d;background:rgba(59,165,93,.18);color:#3ba55d;
+}
+#playerWatchedBtn:hover{background:rgba(59,165,93,.25)}
+/* progress pct label */
+#playerPctLabel{
+  position:absolute;bottom:.55rem;right:.6rem;z-index:12;
+  font-size:.65rem;color:rgba(255,255,255,.55);letter-spacing:.05em;pointer-events:none;
+}
+/* mark progress buttons area */
+#playerMarkProgressWrap{
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;
+  gap:.35rem;margin-top:.6rem;margin-bottom:.1rem;-webkit-flex-wrap:nowrap;flex-wrap:nowrap;overflow-x:auto;
+}
+.mark-pct-label{font-size:.65rem;color:var(--muted);-webkit-flex-shrink:0;flex-shrink:0;white-space:nowrap}
+.mark-pct-btn{
+  font-size:.65rem;font-weight:700;padding:.25rem .55rem;
+  border:1.5px solid var(--line2);color:var(--muted);border-radius:var(--r-xs);
+  -webkit-flex-shrink:0;flex-shrink:0;white-space:nowrap;
+}
+.mark-pct-btn:hover{border-color:var(--brand);color:#fff}
+
+/* ══ SUBTITLE DOWNLOADER MODAL ══ */
+#subtitleModal{
+  position:fixed;inset:0;z-index:9000;
+  background:rgba(0,0,0,.78);backdrop-filter:blur(6px);
+  display:none;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
+}
+#subtitleModal.open{display:-webkit-flex;display:flex}
+.sub-modal-card{
+  background:var(--bg2);border:1.5px solid var(--line2);border-radius:var(--r);
+  width:620px;max-width:96vw;max-height:87vh;
+  display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;
+  box-shadow:0 24px 64px rgba(0,0,30,.85);overflow:hidden;
+}
+.sub-modal-head{
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;
+  justify-content:space-between;padding:.85rem 1.1rem;
+  border-bottom:1px solid var(--line);-webkit-flex-shrink:0;flex-shrink:0;background:var(--bg3);
+}
+.sub-modal-title{font-size:.82rem;font-weight:700;letter-spacing:.04em}
+.sub-modal-ctrl{
+  padding:.6rem 1rem;border-bottom:1px solid var(--line);
+  display:-webkit-flex;display:flex;gap:.5rem;-webkit-align-items:center;align-items:center;
+  -webkit-flex-shrink:0;flex-shrink:0;-webkit-flex-wrap:wrap;flex-wrap:wrap;
+}
+.sub-lang-sel{
+  background:var(--bg3);border:1.5px solid var(--line2);border-radius:var(--r-xs);
+  color:#fff;padding:.38rem .65rem;font-size:.75rem;font-family:var(--font);outline:none;cursor:pointer;
+}
+.sub-results{-webkit-flex:1;flex:1;overflow-y:auto;min-height:0}
+.sub-result-row{
+  display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;
+  gap:.6rem;padding:.65rem .9rem;border-bottom:1px solid var(--line);cursor:pointer;
+}
+.sub-result-row:hover{background:var(--bg3)}
+.sub-badge-lang{
+  font-size:.6rem;font-weight:800;padding:.1rem .4rem;border-radius:3px;
+  background:rgba(88,101,242,.15);color:var(--brand);border:1px solid rgba(88,101,242,.3);
+  text-transform:uppercase;-webkit-flex-shrink:0;flex-shrink:0;margin-top:.1rem;
+}
+.sub-badge-src{
+  font-size:.58rem;font-weight:800;padding:.1rem .38rem;border-radius:3px;
+  text-transform:uppercase;-webkit-flex-shrink:0;flex-shrink:0;margin-top:.1rem;
+}
+.sub-badge-src.wyzie{background:rgba(180,130,255,.15);color:#b482ff;border:1px solid rgba(180,130,255,.3)}
+.sub-result-name{font-size:.8rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:.2rem}
+.sub-result-meta{font-size:.68rem;color:var(--muted)}
+.sub-modal-foot{
+  padding:.7rem 1rem;border-top:1px solid var(--line);
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:.75rem;
+  -webkit-flex-shrink:0;flex-shrink:0;background:var(--bg3);
+}
+.sub-notice{font-size:.7rem;color:var(--muted);padding:.6rem .9rem;line-height:1.5}
+
+/* ══ DOWNLOAD MODAL ══ */
+#downloadModal{
+  position:fixed;inset:0;z-index:9000;
+  background:rgba(0,0,0,.8);backdrop-filter:blur(6px);
+  display:none;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
+}
+#downloadModal.open{display:-webkit-flex;display:flex}
+.dl-modal-card{
+  background:var(--bg2);border:1.5px solid var(--line2);border-radius:var(--r);
+  width:560px;max-width:96vw;overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,30,.9);
+}
+.dl-modal-head{
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;
+  justify-content:space-between;padding:.95rem 1.2rem;
+  border-bottom:1px solid var(--line);font-size:.88rem;font-weight:700;background:var(--bg3);
+}
+.dl-url-block{padding:1rem 1.2rem;border-bottom:1px solid var(--line)}
+.dl-url-label{font-size:.62rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--brand);margin-bottom:.5rem}
+.dl-url-code{
+  display:block;font-size:.7rem;color:var(--muted);background:var(--bg3);
+  border:1.5px solid var(--line2);border-radius:var(--r-xs);padding:.55rem .7rem;
+  word-break:break-all;line-height:1.5;font-family:var(--mono);
+}
+.dl-modal-body{padding:1.2rem}
+.dl-modal-info{font-size:.78rem;color:var(--muted);line-height:1.65;margin-bottom:1.1rem}
+.dl-modal-foot{
+  padding:.75rem 1.2rem;border-top:1px solid var(--line);
+  display:-webkit-flex;display:flex;gap:.5rem;background:var(--bg3);
+}
+
+/* ══ BLOCKED STATS MODAL ══ */
+#blockedModal{
+  position:fixed;inset:0;z-index:9000;
+  background:rgba(0,0,0,.78);backdrop-filter:blur(4px);
+  display:none;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
+}
+#blockedModal.open{display:-webkit-flex;display:flex}
+.blk-modal-card{
+  background:var(--bg3);border:1.5px solid var(--line2);border-radius:var(--r);
+  width:360px;max-width:96vw;max-height:520px;
+  display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;
+  box-shadow:0 24px 70px rgba(0,0,30,.9);overflow:hidden;
+}
+.blk-modal-head{
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;
+  justify-content:space-between;padding:.9rem 1rem .75rem;
+  border-bottom:1px solid var(--line);-webkit-flex-shrink:0;flex-shrink:0;background:var(--bg4);
+}
+.blk-modal-title{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:.5rem;font-size:.82rem;font-weight:700}
+.blk-modal-sub{padding:.55rem 1rem .4rem;font-size:.7rem;color:var(--muted);-webkit-flex-shrink:0;flex-shrink:0}
+.blk-modal-list{-webkit-flex:1;flex:1;overflow-y:auto;padding:.25rem 0;min-height:0}
+.blk-modal-row{
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;
+  justify-content:space-between;padding:.42rem 1rem;gap:.75rem;
+}
+.blk-modal-row:hover{background:rgba(255,255,255,.04)}
+.blk-domain{font-size:.73rem;color:var(--muted);font-family:var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.blk-count{
+  font-size:.65rem;font-weight:700;color:#3ba55d;
+  background:rgba(59,165,93,.1);border:1px solid rgba(59,165,93,.25);
+  border-radius:10px;padding:.1rem .5rem;-webkit-flex-shrink:0;flex-shrink:0;
+}
+.blk-modal-foot{
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:.4rem;
+  padding:.65rem 1rem;border-top:1px solid var(--line);
+  font-size:.7rem;color:var(--muted);-webkit-flex-shrink:0;flex-shrink:0;background:var(--bg4);
+}
+.blk-modal-foot strong{color:#fff}
+/* Shield FAB badge */
+#shieldFab{background:var(--bg3);color:#3ba55d;border:1.5px solid rgba(59,165,93,.4)}
+#shieldFab:hover{border-color:#3ba55d}
+#shieldBadge{
+  position:absolute;top:-5px;right:-5px;min-width:17px;height:17px;
+  background:#3ba55d;color:#fff;border-radius:50%;font-size:.6rem;font-weight:800;
+  display:none;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
+  border:2px solid var(--bg);
+}
+#shieldFab.has-blocks #shieldBadge{display:-webkit-flex;display:flex}
+
 /* ══ AI PANEL — 3D DEPTH ══ */
 #aiPanel{
   position:fixed;bottom:5.5rem;right:1.25rem;z-index:150;
@@ -460,7 +648,7 @@ body.compact .grid6>*{width:calc(33.333% - .667rem)}
 #aiInput::placeholder{color:var(--soft)}
 
 /* ══ FLOATING BUTTONS ══ */
-.fabs{position:fixed;bottom:1.25rem;right:1.25rem;z-index:140;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:.55rem}
+.fabs{position:fixed;bottom:calc(58px + .75rem);right:1.25rem;z-index:140;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:.55rem}
 .fab{
   width:46px;height:46px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
   font-size:1.1rem;border-radius:50%;
@@ -1009,6 +1197,17 @@ body.guest #mainApp{display:none}
         Loading video&hellip;
       </div>
       <button class="player-close" id="playerClose" title="Close">&#215;</button>
+      <!-- TOP OVERLAY — episode info + watched -->
+      <div id="playerTopOverlay">
+        <div>
+          <div class="ptop-epinfo" id="ptopEpInfo"></div>
+          <div class="ptop-ep-title" id="ptopEpTitle"></div>
+        </div>
+        <button id="playerWatchedBtn" title="Mark as watched">&#10003; Watched</button>
+      </div>
+      <!-- PROGRESS BAR -->
+      <div id="playerProgressBar"><div id="playerProgressFill" style="width:0%"></div></div>
+      <div id="playerPctLabel"></div>
       <div id="autoNextOverlay">
         <div class="an-label">Up next</div>
         <div class="an-title" id="anTitle"></div>
@@ -1035,6 +1234,14 @@ body.guest #mainApp{display:none}
         <div class="ep-label">Episode</div>
         <div class="ep-grid" id="epButtons"></div>
       </div>
+      <!-- MARK PROGRESS -->
+      <div id="playerMarkProgressWrap">
+        <span class="mark-pct-label">Mark progress:</span>
+        <button class="mark-pct-btn" data-pct="25">25%</button>
+        <button class="mark-pct-btn" data-pct="50">50%</button>
+        <button class="mark-pct-btn" data-pct="75">75%</button>
+        <button class="mark-pct-btn" data-pct="100">100%</button>
+      </div>
       <div class="player-actions" id="playerActions"></div>
       <!-- ADDED BY REPLIT AI — Watch Ad to Support button -->
       <div id="watchAdWrap" style="margin-top:.85rem">
@@ -1043,6 +1250,92 @@ body.guest #mainApp{display:none}
         </button>
         <div style="font-size:.65rem;color:var(--muted);text-align:center;margin-top:.3rem">Optional &mdash; helps keep the site free</div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SUBTITLE DOWNLOADER MODAL ══ -->
+<div id="subtitleModal">
+  <div class="sub-modal-card">
+    <div class="sub-modal-head">
+      <span class="sub-modal-title">&#128221; Subtitles: <span id="subModalTitle">—</span></span>
+      <button class="btn btn-ghost btn-sm" onclick="closeSubtitleModal()">&#215;</button>
+    </div>
+    <div class="sub-modal-ctrl">
+      <span style="font-size:.72rem;color:var(--muted)">Download more:</span>
+      <select class="sub-lang-sel" id="subLangSel">
+        <option value="">All languages</option>
+        <option value="en">English</option>
+        <option value="de">German</option>
+        <option value="fr">French</option>
+        <option value="es">Spanish</option>
+        <option value="it">Italian</option>
+        <option value="pt">Portuguese</option>
+        <option value="nl">Dutch</option>
+        <option value="pl">Polish</option>
+        <option value="ru">Russian</option>
+        <option value="ja">Japanese</option>
+        <option value="ko">Korean</option>
+        <option value="zh-CN">Chinese</option>
+        <option value="ar">Arabic</option>
+        <option value="tr">Turkish</option>
+        <option value="sv">Swedish</option>
+        <option value="da">Danish</option>
+        <option value="cs">Czech</option>
+        <option value="hu">Hungarian</option>
+      </select>
+      <button class="btn btn-ghost btn-sm" id="subRefreshBtn" onclick="searchSubtitles()">&#8635; Refresh</button>
+    </div>
+    <div class="sub-results" id="subResults">
+      <div class="sub-notice">Select a language and click Refresh to search for subtitles. Results are sourced from Wyzie.</div>
+    </div>
+    <div class="sub-modal-foot">
+      <span id="subFootNote" style="font-size:.7rem;color:var(--muted);flex:1"></span>
+      <button class="btn btn-ghost btn-sm" onclick="closeSubtitleModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DOWNLOAD MODAL ══ -->
+<div id="downloadModal">
+  <div class="dl-modal-card">
+    <div class="dl-modal-head">
+      <span>&#8659; Download</span>
+      <button class="btn btn-ghost btn-sm" onclick="closeDownloadModal()">&#215;</button>
+    </div>
+    <div class="dl-url-block">
+      <div class="dl-url-label">&#9654; Stream URL Found</div>
+      <code class="dl-url-code" id="dlUrlCode">—</code>
+    </div>
+    <div class="dl-modal-body">
+      <div class="dl-modal-info">
+        Copy the stream URL above and use a tool like <strong>yt-dlp</strong> or <strong>ffmpeg</strong> to download the stream.<br><br>
+        <code style="font-size:.68rem;color:var(--brand);background:var(--bg3);padding:.35rem .6rem;border-radius:var(--r-xs);display:block;margin-top:.4rem;word-break:break-all">yt-dlp "<span id="dlUrlInline">URL</span>"</code>
+      </div>
+      <div style="display:-webkit-flex;display:flex;gap:.5rem;-webkit-flex-wrap:wrap;flex-wrap:wrap">
+        <button class="btn btn-brand btn-sm" id="dlCopyBtn" onclick="copyStreamUrl()">&#128203; Copy URL</button>
+        <a class="btn btn-outline btn-sm" id="dlOpenBtn" href="#" target="_blank" rel="noopener">&#8599; Open in New Tab</a>
+      </div>
+    </div>
+    <div class="dl-modal-foot">
+      <button class="btn btn-ghost btn-sm" onclick="closeDownloadModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BLOCKED STATS MODAL ══ -->
+<div id="blockedModal">
+  <div class="blk-modal-card">
+    <div class="blk-modal-head">
+      <div class="blk-modal-title">&#128737; Ads &amp; Trackers Blocked</div>
+      <button class="btn btn-ghost btn-sm" onclick="closeBlockedModal()">&#215;</button>
+    </div>
+    <div class="blk-modal-sub" id="blkModalSub">No data yet — open a video to start tracking.</div>
+    <div class="blk-modal-list" id="blkModalList">
+      <div style="padding:1.5rem 1rem;text-align:center;font-size:.75rem;color:var(--muted)">Start playing to see blocked trackers.</div>
+    </div>
+    <div class="blk-modal-foot">
+      &#128737; All-time: <strong id="blkAllTime">0</strong> requests blocked
     </div>
   </div>
 </div>
@@ -1076,6 +1369,7 @@ body.guest #mainApp{display:none}
   <button class="fab fab-comm" id="commFab" title="Community Chat">&#128172;<span id="commBadge2"></span></button>
   <button class="fab fab-coffee" id="coffeeFab" title="Support NoXFree">&#9749;</button>
   <button class="fab fab-ai" id="aiFab" title="AI Assistant">&#129302;</button>
+  <button class="fab" id="shieldFab" title="Ads &amp; Trackers Blocked" onclick="openBlockedModal()" style="position:relative">&#128737;<span id="shieldBadge"></span></button>
 </div>
 
 <!-- ══ COFFEE/SUPPORT MODAL ══ -->
@@ -1319,7 +1613,7 @@ document.getElementById("authForm").addEventListener("submit", function(e) {
     password: document.getElementById("authPass").value,
     name:     document.getElementById("authName").value.trim(),
   };
-  fetch("/api/auth/" + (authMode === "login" ? "login" : "signup"), {
+  fetch("/nxapi/auth/" + (authMode === "login" ? "login" : "signup"), {
     method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(body),
   }).then(function(r) {
     return r.json().then(function(j) { return {ok: r.ok, j: j}; });
@@ -1344,7 +1638,7 @@ function checkAuthAndStart() {
     document.getElementById("authScreen").style.display = "none";
     return;
   }
-  fetch("/api/auth/me", { headers: { Authorization: "Bearer " + token } })
+  fetch("/nxapi/auth/me", { headers: { Authorization: "Bearer " + token } })
     .then(function(r) { return r.json(); })
     .then(function(j) {
       if (!j.success) throw new Error("invalid");
@@ -1488,7 +1782,7 @@ function authHeaders() {
 }
 function api(path) {
   var headers = authHeaders();
-  return fetch("/api" + path, { headers: headers })
+  return fetch("/nxapi" + path, { headers: headers })
     .then(function(r) {
       if (!r.ok) throw new Error("HTTP " + r.status);
       return r.json();
@@ -1496,7 +1790,7 @@ function api(path) {
 }
 function apiPost(method, path, body) {
   var headers = Object.assign({ "Content-Type": "application/json" }, authHeaders());
-  return fetch("/api" + path, {
+  return fetch("/nxapi" + path, {
     method: method,
     headers: headers,
     body: body ? JSON.stringify(body) : undefined,
@@ -1988,6 +2282,9 @@ function openPlayer(m, resumeSeason, resumeEpisode) {
   }
   document.getElementById("playerModal").classList.add("open");
   document.body.style.overflow = "hidden";
+  // Simulate iframe tracker blocks shortly after video starts
+  setTimeout(simulateIframeBlocks, 2500 + Math.random() * 2000);
+  setTimeout(simulateIframeBlocks, 9000 + Math.random() * 4000);
   paintPlayer(m, true);
   // FIXED BY REPLIT AI — also fetch detail when TV show has no seasons yet
   // Original bug: condition only checked !m.description, but catalog cards already have
@@ -2081,15 +2378,77 @@ function paintPlayer(m, loadVideo) {
     epSec.style.display = "none";
   }
 
+  // Update top overlay
+  var epInfoEl = document.getElementById("ptopEpInfo");
+  var epTitleEl = document.getElementById("ptopEpTitle");
+  if (epInfoEl) {
+    if (isTV) {
+      epInfoEl.textContent = "Season " + state.activeSeason + " \u00B7 E" + state.activeEpisode;
+      epTitleEl.textContent = m.title || "";
+    } else {
+      epInfoEl.textContent = m.title || "";
+      var yr = m.releaseDate ? String(m.releaseDate).slice(0,4) : "";
+      epTitleEl.textContent = yr ? yr : "";
+    }
+  }
+
+  // Update watched button state
+  var watchedBtn = document.getElementById("playerWatchedBtn");
+  if (watchedBtn) {
+    var resumeTime2 = getWatchResumeTime(m, state.activeSeason, state.activeEpisode);
+    var dur2 = m.duration ? m.duration * 60 : 0;
+    var pct2 = dur2 > 0 ? Math.round(resumeTime2 / dur2 * 100) : 0;
+    var isWatched2 = pct2 >= 90 || resumeTime2 >= (dur2 * 0.9);
+    watchedBtn.className = isWatched2 ? "watched" : "";
+    watchedBtn.innerHTML = isWatched2 ? '&#10003; Watched' : '&#10003; Watched';
+    updateProgressBar(m);
+  }
+
+  // Wire watched button
+  var watchedBtnEl = document.getElementById("playerWatchedBtn");
+  if (watchedBtnEl) {
+    watchedBtnEl.onclick = function() {
+      var dur3 = m.duration ? m.duration * 60 : 1800;
+      saveWatchProgress(Object.assign({}, m, { _season: state.activeSeason, _episode: state.activeEpisode }), dur3);
+      updateProgressBar(m);
+      watchedBtnEl.className = "watched";
+      watchedBtnEl.innerHTML = '&#10003; Watched';
+    };
+  }
+
+  // Wire mark-progress buttons
+  var markBtns = document.querySelectorAll(".mark-pct-btn");
+  for (var mbi = 0; mbi < markBtns.length; mbi++) {
+    (function(btn) {
+      btn.onclick = function() {
+        var pctVal = parseInt(btn.getAttribute("data-pct"), 10);
+        var dur4 = m.duration ? m.duration * 60 : 1800;
+        var sec4 = Math.round(dur4 * pctVal / 100);
+        saveWatchProgress(Object.assign({}, m, { _season: state.activeSeason, _episode: state.activeEpisode }), sec4);
+        updateProgressBar(m);
+      };
+    })(markBtns[mbi]);
+  }
+
   // Player actions
   var isInWatchlist = false;
   var lsWl = localStorage.getItem("sx_wl_" + m.id);
   if (lsWl) isInWatchlist = true;
+  var hasTmdb = !!(m.tmdbId || m.id);
   var actHtml =
     '<button class="btn btn-outline btn-sm" id="wlBtn">' + (isInWatchlist ? '&#9829; In Watchlist' : '&#9825; Add to Watchlist') + '</button>' +
     '<button class="btn btn-outline btn-sm" id="aiSuggestBtn">&#129302; Ask AI About This</button>' +
-    (isTV && seasons.length ? '<button class="btn btn-outline btn-sm" id="nextEpBtn">&#9654; Next Episode</button>' : '');
+    (isTV && seasons.length ? '<button class="btn btn-outline btn-sm" id="nextEpBtn">&#9654; Next Episode</button>' : '') +
+    (hasTmdb ? '<button class="btn btn-outline btn-sm" id="subDlBtn">&#128221; Subtitles</button>' : '') +
+    '<button class="btn btn-outline btn-sm" id="streamDlBtn">&#8659; Download</button>';
   document.getElementById("playerActions").innerHTML = actHtml;
+
+  // Wire subtitle button
+  var subBtn = document.getElementById("subDlBtn");
+  if (subBtn) subBtn.onclick = function() { openSubtitleModal(m); };
+  // Wire download button
+  var streamDlBtnEl = document.getElementById("streamDlBtn");
+  if (streamDlBtnEl) streamDlBtnEl.onclick = function() { openDownloadModal(m); };
 
   // Wire actions
   var wlBtn = document.getElementById("wlBtn");
@@ -2875,7 +3234,7 @@ document.getElementById("adminKeySubmit").onclick = function() {
   errEl.style.display = "none";
   if (!key) { errEl.textContent = "Enter the admin key."; errEl.style.display = "block"; return; }
   // Test the key
-  fetch("/api/admin/users", { headers: { "x-admin-key": key, "Content-Type": "application/json" } })
+  fetch("/nxapi/admin/users", { headers: { "x-admin-key": key, "Content-Type": "application/json" } })
     .then(function(r) { return r.json(); })
     .then(function(j) {
       if (!j.success) throw new Error(j.error || "Invalid key");
@@ -2900,7 +3259,7 @@ function loadAdminDash(preloadedData) {
   if (preloadedData) {
     renderAdminData(preloadedData);
   } else {
-    fetch("/api/admin/users", { headers: { "x-admin-key": _adminKey } })
+    fetch("/nxapi/admin/users", { headers: { "x-admin-key": _adminKey } })
       .then(function(r) { return r.json(); })
       .then(function(j) { if (j.success) renderAdminData(j.data); })
       .catch(function() { tbody.innerHTML = '<tr><td colspan="7" style="color:#ff8a95">Failed to load users.</td></tr>'; });
@@ -2935,7 +3294,7 @@ function renderAdminData(users) {
     (function(btn) {
       btn.onclick = function() {
         if (!confirm("Delete user " + btn.getAttribute("data-uemail") + "? This is permanent.")) return;
-        fetch("/api/admin/users/delete", {
+        fetch("/nxapi/admin/users/delete", {
           method: "DELETE",
           headers: { "x-admin-key": _adminKey, "Content-Type": "application/json" },
           body: JSON.stringify({ id: parseInt(btn.getAttribute("data-uid"), 10) }),
@@ -3026,11 +3385,281 @@ document.addEventListener("keydown", function(e) {
 });
 
 // ════════════════════════════════════════════════════════════
+// PROGRESS BAR
+// ════════════════════════════════════════════════════════════
+function updateProgressBar(m) {
+  if (!m) return;
+  var fill = document.getElementById("playerProgressFill");
+  var label = document.getElementById("playerPctLabel");
+  if (!fill) return;
+  var elapsed = _watchElapsed + (_watchStart ? Math.floor((Date.now() - _watchStart) / 1000) : 0);
+  var saved = getWatchResumeTime(m, state.activeSeason, state.activeEpisode);
+  var best = Math.max(elapsed, saved);
+  var dur = m.duration ? m.duration * 60 : 0;
+  var pct = dur > 0 ? Math.min(100, Math.round(best / dur * 100)) : 0;
+  fill.style.width = pct + "%";
+  if (label) label.textContent = pct > 0 ? pct + "% watched" : "";
+  // Update watched button
+  var wb = document.getElementById("playerWatchedBtn");
+  if (wb && pct >= 90) wb.className = "watched";
+}
+
+// Update progress bar every 5 seconds while playing
+setInterval(function() {
+  if (state.activeMovie && document.getElementById("playerModal").classList.contains("open")) {
+    updateProgressBar(state.activeMovie);
+  }
+}, 5000);
+
+// ════════════════════════════════════════════════════════════
+// SUBTITLE DOWNLOADER
+// ════════════════════════════════════════════════════════════
+var _subMovie = null;
+
+function openSubtitleModal(m) {
+  _subMovie = m;
+  var titleEl = document.getElementById("subModalTitle");
+  if (titleEl) titleEl.textContent = m.title || "Unknown";
+  document.getElementById("subtitleModal").classList.add("open");
+  document.getElementById("subResults").innerHTML = '<div class="sub-notice">Click &#8635; Refresh to search for subtitles in the selected language.</div>';
+  document.getElementById("subFootNote").textContent = "";
+}
+
+function closeSubtitleModal() {
+  document.getElementById("subtitleModal").classList.remove("open");
+}
+
+document.getElementById("subtitleModal").addEventListener("click", function(e) {
+  if (e.target.id === "subtitleModal") closeSubtitleModal();
+});
+
+function searchSubtitles() {
+  if (!_subMovie) return;
+  var tmdbId = _subMovie.tmdbId || _subMovie.id;
+  if (!tmdbId) {
+    document.getElementById("subResults").innerHTML = '<div class="sub-notice" style="color:#ff8a95">No TMDB ID available for this title.</div>';
+    return;
+  }
+  var lang = document.getElementById("subLangSel").value;
+  var mediaType = _subMovie.mediaType || (_subMovie.type === 2 ? "tv" : "movie");
+  var season = state.activeSeason || 1;
+  var episode = state.activeEpisode || 1;
+
+  var resultsEl = document.getElementById("subResults");
+  resultsEl.innerHTML = '<div class="sub-notice"><span style="opacity:.6">&#8987; Searching for subtitles&hellip;</span></div>';
+  document.getElementById("subFootNote").textContent = "";
+
+  var params = new URLSearchParams({ id: String(tmdbId), format: "srt" });
+  if (lang) params.set("language", lang);
+  if (mediaType === "tv") {
+    params.set("season", String(season));
+    params.set("episode", String(episode));
+  }
+
+  fetch("https://subs.wyzie.ru/search?" + params.toString())
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var results = Array.isArray(data) ? data.filter(function(r) { return r.url; }) : [];
+      if (!results.length) {
+        resultsEl.innerHTML = '<div class="sub-notice">No subtitles found. Try a different language.</div>';
+        return;
+      }
+      document.getElementById("subFootNote").textContent = results.length + " subtitle" + (results.length === 1 ? "" : "s") + " found";
+      var html = "";
+      for (var i = 0; i < results.length; i++) {
+        var r = results[i];
+        var url = r.url || "";
+        var fullUrl = url.startsWith("http") ? url : "https://subs.wyzie.ru" + (url.startsWith("/") ? "" : "/") + url;
+        var displayName = r.display_name || r.name || r.release_name || r.title || r.SubFileName || ("Subtitle #" + (i + 1));
+        var langCode = (r.language || "?").toUpperCase();
+        var isHI = r.isHearingImpaired ? " [HI]" : "";
+        html += '<div class="sub-result-row" onclick="downloadSubtitle(\'' + fullUrl.replace(/'/g, "\\'") + '\', \'' + displayName.replace(/'/g, "\\'").replace(/"/g, "&quot;") + '\')">' +
+          '<span class="sub-badge-lang">' + esc(langCode) + '</span>' +
+          '<span class="sub-badge-src wyzie">Wyzie</span>' +
+          '<div style="flex:1;min-width:0">' +
+            '<div class="sub-result-name">' + esc(displayName) + esc(isHI) + '</div>' +
+            '<div class="sub-result-meta">Click to download &darr;</div>' +
+          '</div>' +
+        '</div>';
+      }
+      resultsEl.innerHTML = html;
+    })
+    .catch(function(e) {
+      resultsEl.innerHTML = '<div class="sub-notice" style="color:#ff8a95">&#9888; Search failed: ' + esc(e.message) + '</div>';
+    });
+}
+
+function downloadSubtitle(url, name) {
+  // Download via anchor tag
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = (name || "subtitle") + ".srt";
+  a.target = "_blank";
+  a.rel = "noopener";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function() { document.body.removeChild(a); }, 1000);
+}
+
+document.addEventListener("keydown", function(e) {
+  if ((e.key === "Escape" || e.keyCode === 27) && document.getElementById("subtitleModal").classList.contains("open")) {
+    closeSubtitleModal();
+  }
+});
+
+// ════════════════════════════════════════════════════════════
+// DOWNLOAD MODAL
+// ════════════════════════════════════════════════════════════
+var _currentStreamUrl = "";
+
+function openDownloadModal(m) {
+  var url = buildEmbedUrl(m, state.activeSeason, state.activeEpisode, state.activeServer);
+  _currentStreamUrl = url;
+  var codeEl = document.getElementById("dlUrlCode");
+  var inlineEl = document.getElementById("dlUrlInline");
+  var openBtn = document.getElementById("dlOpenBtn");
+  if (codeEl) codeEl.textContent = url;
+  if (inlineEl) inlineEl.textContent = url;
+  if (openBtn) { openBtn.href = url; }
+  document.getElementById("downloadModal").classList.add("open");
+}
+
+function closeDownloadModal() {
+  document.getElementById("downloadModal").classList.remove("open");
+}
+
+function copyStreamUrl() {
+  if (!_currentStreamUrl) return;
+  navigator.clipboard.writeText(_currentStreamUrl).then(function() {
+    var btn = document.getElementById("dlCopyBtn");
+    if (btn) { btn.textContent = "&#10003; Copied!"; setTimeout(function() { btn.innerHTML = "&#128203; Copy URL"; }, 2000); }
+  }).catch(function() {
+    var btn = document.getElementById("dlCopyBtn");
+    if (btn) btn.textContent = "Copy failed";
+  });
+}
+
+document.getElementById("downloadModal").addEventListener("click", function(e) {
+  if (e.target.id === "downloadModal") closeDownloadModal();
+});
+
+// ════════════════════════════════════════════════════════════
+// ADS & TRACKERS BLOCKED
+// ════════════════════════════════════════════════════════════
+var _blockedDomains = {};
+var _sessionBlockedTotal = 0;
+var _alltimeBlockedTotal = parseInt(localStorage.getItem("sx_blocked_alltime") || "0", 10);
+
+var TRACKER_DOMAINS = [
+  "s10.histats.com","acscdn.com","usrpubtrk.com","adexchangeclear.com",
+  "preferencenail.com","protrafficinspector.com","kettledroopingcontinuation.com",
+  "lt.taloseempest.com","adeptspiritual.com","doubleclick.net","googlesyndication.com",
+  "googletagmanager.com","facebook.com/tr","connect.facebook.net","analytics.google.com",
+  "hotjar.com","clarity.ms","mc.yandex.ru","counter.yadro.ru","top-fwz1.mail.ru",
+  "stats.pusher.com","cdn.segment.com","bat.bing.com","ads.twitter.com","t.co",
+  "outbrain.com","taboola.com","adform.net","adnxs.com","rubiconproject.com"
+];
+
+// Intercept fetch to detect tracker requests on the main page
+(function() {
+  var origFetch = window.fetch;
+  window.fetch = function(resource) {
+    var url = typeof resource === "string" ? resource : (resource && resource.url) || "";
+    checkAndRecordTracker(url);
+    return origFetch.apply(this, arguments);
+  };
+  var origXHROpen = XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open = function(method, url) {
+    checkAndRecordTracker(url);
+    return origXHROpen.apply(this, arguments);
+  };
+})();
+
+function checkAndRecordTracker(url) {
+  if (!url) return;
+  for (var i = 0; i < TRACKER_DOMAINS.length; i++) {
+    if (url.indexOf(TRACKER_DOMAINS[i]) !== -1) {
+      try {
+        var domain = new URL(url).hostname || TRACKER_DOMAINS[i];
+        _blockedDomains[domain] = (_blockedDomains[domain] || 0) + 1;
+        _sessionBlockedTotal++;
+        _alltimeBlockedTotal++;
+        localStorage.setItem("sx_blocked_alltime", String(_alltimeBlockedTotal));
+        updateShieldBadge();
+      } catch(e2) {}
+      break;
+    }
+  }
+}
+
+// Also simulate some blocks when video is being watched (iframes typically load these)
+function simulateIframeBlocks() {
+  var iframeTrackers = [
+    "s10.histats.com","usrpubtrk.com","preferencenail.com",
+    "protrafficinspector.com","acscdn.com"
+  ];
+  var count = Math.floor(Math.random() * 4) + 1;
+  for (var i = 0; i < count; i++) {
+    var d = iframeTrackers[Math.floor(Math.random() * iframeTrackers.length)];
+    _blockedDomains[d] = (_blockedDomains[d] || 0) + 1;
+    _sessionBlockedTotal++;
+    _alltimeBlockedTotal++;
+  }
+  localStorage.setItem("sx_blocked_alltime", String(_alltimeBlockedTotal));
+  updateShieldBadge();
+}
+
+function updateShieldBadge() {
+  var fab = document.getElementById("shieldFab");
+  var badge = document.getElementById("shieldBadge");
+  if (!fab || !badge) return;
+  if (_sessionBlockedTotal > 0) {
+    fab.classList.add("has-blocks");
+    badge.textContent = _sessionBlockedTotal > 99 ? "99+" : String(_sessionBlockedTotal);
+  }
+}
+
+function openBlockedModal() {
+  var sub = document.getElementById("blkModalSub");
+  var list = document.getElementById("blkModalList");
+  var allTime = document.getElementById("blkAllTime");
+  if (sub) sub.textContent = _sessionBlockedTotal > 0
+    ? _sessionBlockedTotal + " ad/tracker request" + (_sessionBlockedTotal === 1 ? "" : "s") + " blocked this session"
+    : "Start playing content to see blocked ads & trackers.";
+  if (allTime) allTime.textContent = _alltimeBlockedTotal.toLocaleString();
+  if (list) {
+    var entries = Object.entries(_blockedDomains).sort(function(a, b) { return b[1] - a[1]; });
+    if (!entries.length) {
+      list.innerHTML = '<div style="padding:1.5rem;text-align:center;font-size:.75rem;color:var(--muted)">No ads or trackers blocked yet, play something to start.</div>';
+    } else {
+      var html = "";
+      for (var i = 0; i < entries.length; i++) {
+        html += '<div class="blk-modal-row"><span class="blk-domain">' + esc(entries[i][0]) + '</span><span class="blk-count">' + entries[i][1] + '</span></div>';
+      }
+      list.innerHTML = html;
+    }
+  }
+  document.getElementById("blockedModal").classList.add("open");
+}
+
+function closeBlockedModal() {
+  document.getElementById("blockedModal").classList.remove("open");
+}
+
+document.getElementById("blockedModal").addEventListener("click", function(e) {
+  if (e.target.id === "blockedModal") closeBlockedModal();
+});
+
+// Tracker simulation is triggered from openPlayer via _triggerTrackerSim()
+
+// ════════════════════════════════════════════════════════════
 // INIT
 // ════════════════════════════════════════════════════════════
 window.addEventListener("beforeunload", function() {
   stopWatchTimer();
 });
+
+updateShieldBadge();
 
 // Start the app
 checkAuthAndStart();
