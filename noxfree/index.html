@@ -1613,7 +1613,7 @@ document.getElementById("authForm").addEventListener("submit", function(e) {
     password: document.getElementById("authPass").value,
     name:     document.getElementById("authName").value.trim(),
   };
-  fetch("/nxapi/auth/" + (authMode === "login" ? "login" : "signup"), {
+  fetch("/api/auth/" + (authMode === "login" ? "login" : "signup"), {
     method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(body),
   }).then(function(r) {
     return r.json().then(function(j) { return {ok: r.ok, j: j}; });
@@ -1638,7 +1638,7 @@ function checkAuthAndStart() {
     document.getElementById("authScreen").style.display = "none";
     return;
   }
-  fetch("/nxapi/auth/me", { headers: { Authorization: "Bearer " + token } })
+  fetch("/api/auth/me", { headers: { Authorization: "Bearer " + token } })
     .then(function(r) { return r.json(); })
     .then(function(j) {
       if (!j.success) throw new Error("invalid");
@@ -1782,7 +1782,7 @@ function authHeaders() {
 }
 function api(path) {
   var headers = authHeaders();
-  return fetch("/nxapi" + path, { headers: headers })
+  return fetch("/api" + path, { headers: headers })
     .then(function(r) {
       if (!r.ok) throw new Error("HTTP " + r.status);
       return r.json();
@@ -1790,7 +1790,7 @@ function api(path) {
 }
 function apiPost(method, path, body) {
   var headers = Object.assign({ "Content-Type": "application/json" }, authHeaders());
-  return fetch("/nxapi" + path, {
+  return fetch("/api" + path, {
     method: method,
     headers: headers,
     body: body ? JSON.stringify(body) : undefined,
@@ -3234,7 +3234,7 @@ document.getElementById("adminKeySubmit").onclick = function() {
   errEl.style.display = "none";
   if (!key) { errEl.textContent = "Enter the admin key."; errEl.style.display = "block"; return; }
   // Test the key
-  fetch("/nxapi/admin/users", { headers: { "x-admin-key": key, "Content-Type": "application/json" } })
+  fetch("/api/admin/users", { headers: { "x-admin-key": key, "Content-Type": "application/json" } })
     .then(function(r) { return r.json(); })
     .then(function(j) {
       if (!j.success) throw new Error(j.error || "Invalid key");
@@ -3259,7 +3259,7 @@ function loadAdminDash(preloadedData) {
   if (preloadedData) {
     renderAdminData(preloadedData);
   } else {
-    fetch("/nxapi/admin/users", { headers: { "x-admin-key": _adminKey } })
+    fetch("/api/admin/users", { headers: { "x-admin-key": _adminKey } })
       .then(function(r) { return r.json(); })
       .then(function(j) { if (j.success) renderAdminData(j.data); })
       .catch(function() { tbody.innerHTML = '<tr><td colspan="7" style="color:#ff8a95">Failed to load users.</td></tr>'; });
@@ -3294,7 +3294,7 @@ function renderAdminData(users) {
     (function(btn) {
       btn.onclick = function() {
         if (!confirm("Delete user " + btn.getAttribute("data-uemail") + "? This is permanent.")) return;
-        fetch("/nxapi/admin/users/delete", {
+        fetch("/api/admin/users/delete", {
           method: "DELETE",
           headers: { "x-admin-key": _adminKey, "Content-Type": "application/json" },
           body: JSON.stringify({ id: parseInt(btn.getAttribute("data-uid"), 10) }),
