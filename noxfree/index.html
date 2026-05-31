@@ -6,8 +6,7 @@
   <title>NoXFree &mdash; No fee. All play.</title>
   <!-- ADDED BY REPLIT AI — Monetag site verification -->
   <meta name="monetag" content="ae8dbe50853a4338b0a75624075c1dde">
-  <!-- ADDED BY REPLIT AI — Monetag Onclick (Popunder) zone 11080376 -->
-  <script>(function(s){s.dataset.zone='11080376',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+  <!-- ADDED BY REPLIT AI — Monetag: Direct Link URL goes in playRewardAd() below, not here -->
   <meta name="description" content="NoXFree &mdash; stream movies, TV series and anime free. No subscriptions. No fees. Zero bayad, zero bitin."/>
   <meta name="theme-color" content="#060714"/>
   <style>
@@ -2336,21 +2335,36 @@ function showToast(msg, duration) {
 //
 //   STEP 3 — Replace "YOUR_ZONE_ID" below with that number. Done!
 //
-// ADDED BY REPLIT AI — Monetag Onclick (Popunder) zone ID
-var MONETAG_ZONE_ID = "11080376";
+// ADDED BY REPLIT AI — Monetag Direct Link URL
+// ─────────────────────────────────────────────────────────────────────────────
+// REPLACE THIS WITH YOUR REAL AD CODE - SEE GUIDE BELOW
+// ─────────────────────────────────────────────────────────────────────────────
+// HOW TO GET YOUR DIRECT LINK:
+//   1. Sa Monetag dashboard → noxfree.vercel.app → Add zone
+//   2. Piliin ang "Direct link (Direct ads)" → Get tag
+//   3. Bibigyan ka ng URL na ganito ang hitsura:
+//      https://al5sm.com/go/abc123xyz
+//   4. I-paste yung URL bilang value ng MONETAG_DIRECT_URL below
+//
+var MONETAG_DIRECT_URL = "https://omg10.com/4/11080413"; // Monetag Direct Link zone 11080413
 
 function playRewardAd() {
-  // ADDED BY REPLIT AI — Monetag Onclick/Popunder trigger
-  // The Monetag script in <head> already listens for clicks on the page.
-  // This button click fires the popunder automatically.
-  // We just disable the button briefly then thank the user.
+  // ADDED BY REPLIT AI — Opens Monetag Direct Link ad in new tab on button click only
   var watchAdBtn = document.getElementById("watchAdBtn");
   if (watchAdBtn) {
     watchAdBtn.disabled = true;
     watchAdBtn.textContent = "Opening ad…";
   }
-  // Give the popunder a moment to open, then show thank-you toast
-  setTimeout(function() { onAdCompleted(); }, 2000);
+
+  if (!MONETAG_DIRECT_URL || MONETAG_DIRECT_URL === "YOUR_DIRECT_LINK_HERE") {
+    // No URL yet — simulate for testing
+    setTimeout(function() { onAdCompleted(); }, 1000);
+    return;
+  }
+
+  // Open the ad ONLY when this button is clicked — not on any other click
+  window.open(MONETAG_DIRECT_URL, "_blank", "noopener");
+  setTimeout(function() { onAdCompleted(); }, 1500);
 }
 
 // ADDED BY REPLIT AI — Called by your real ad SDK after the user watches the ad
