@@ -364,12 +364,12 @@ body.compact .grid6>*{width:calc(33.333% - .667rem)}
 .player-close:hover{border-color:var(--brand)}
 .player-info{padding:1.25rem 1.5rem}
 .player-title{font-size:1.35rem;font-weight:800;margin-bottom:.5rem;text-shadow:0 2px 10px rgba(0,0,20,.5)}
-.player-meta{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:.75rem;font-size:.78rem;color:var(--muted);margin-bottom:1rem;font-family:var(--mono)}
-.player-desc{font-size:.85rem;color:var(--muted);line-height:1.65;margin-bottom:1.25rem;max-width:680px}
+.player-meta{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:.5rem;font-size:.78rem;color:var(--muted);margin-bottom:.5rem;font-family:var(--mono)}
+.player-desc{font-size:.85rem;color:var(--muted);line-height:1.6;margin-bottom:.75rem;max-width:680px}
 
 /* servers */
-.servers-label{font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--soft);margin-bottom:.5rem}
-.servers-wrap{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.servers-label{font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--soft);margin-bottom:.35rem}
+.servers-wrap{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:.4rem;margin-bottom:.65rem}
 .srv-chip{
   font-size:.67rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:.35rem .8rem;
   border:1.5px solid var(--line2);color:var(--muted);border-radius:var(--r-xs);
@@ -647,11 +647,40 @@ body.compact .grid6>*{width:calc(33.333% - .667rem)}
 #aiInput::-webkit-input-placeholder{color:var(--soft)}
 #aiInput::placeholder{color:var(--soft)}
 
-/* ══ FLOATING BUTTONS ══ */
-.fabs{position:fixed;bottom:calc(58px + .75rem);right:1.25rem;z-index:140;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:.55rem}
+/* ══ FLOATING BUTTONS — collapsible menu ══ */
+.fabs{position:fixed;bottom:calc(58px + .75rem);right:1.25rem;z-index:140;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:flex-end;align-items:flex-end;gap:.45rem}
+/* hidden items wrapper */
+.fab-menu-items{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:flex-end;align-items:flex-end;gap:.45rem;pointer-events:none;opacity:0;-webkit-transform:translateY(12px);transform:translateY(12px);transition:opacity .22s ease,-webkit-transform .22s ease;transition:opacity .22s ease,transform .22s ease}
+.fabs.open .fab-menu-items{pointer-events:all;opacity:1;-webkit-transform:translateY(0);transform:translateY(0)}
+/* stagger children */
+.fabs.open .fab-menu-items .fab:nth-child(1){transition-delay:.0s}
+.fabs.open .fab-menu-items .fab:nth-child(2){transition-delay:.04s}
+.fabs.open .fab-menu-items .fab:nth-child(3){transition-delay:.08s}
+.fabs.open .fab-menu-items .fab:nth-child(4){transition-delay:.12s}
+.fabs.open .fab-menu-items .fab:nth-child(5){transition-delay:.16s}
+/* toggle FAB */
+.fab-toggle{
+  width:46px;height:46px;border-radius:50%;
+  background:linear-gradient(145deg,#6875f5,#5865f2);color:#fff;
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
+  font-size:1.35rem;font-weight:700;letter-spacing:0;
+  box-shadow:0 4px 18px rgba(88,101,242,.55);
+  transition:transform .22s ease,box-shadow .22s ease;
+  position:relative;z-index:1;
+}
+.fabs.open .fab-toggle{transform:rotate(45deg);box-shadow:0 4px 24px rgba(88,101,242,.7)}
+/* label tooltip next to each fab */
+.fab-label{
+  position:absolute;right:52px;top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);
+  background:var(--bg3);border:1px solid var(--line2);border-radius:var(--r-xs);
+  padding:.2rem .55rem;font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);white-space:nowrap;pointer-events:none;
+  opacity:0;transition:opacity .15s ease;
+}
+.fabs.open .fab-menu-items .fab:hover .fab-label{opacity:1}
 .fab{
   width:46px;height:46px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
-  font-size:1.1rem;border-radius:50%;
+  font-size:1.1rem;border-radius:50%;position:relative;
   box-shadow:0 4px 16px rgba(0,0,20,.6),inset 0 1px 0 rgba(255,255,255,.1);
 }
 .fab-ai{background:linear-gradient(145deg,#6875f5,#5865f2);color:#fff}
@@ -859,39 +888,73 @@ body.compact .grid6>*{width:calc(33.333% - .667rem)}
 .bnav-icon{font-size:1.1rem}
 
 /* ══ FEATURE LANDING SECTIONS (shown before login) ══ */
+@keyframes feat-glow-pulse{0%,100%{box-shadow:var(--sh-btn),0 8px 28px rgba(88,101,242,.4),0 0 0 0 rgba(88,101,242,.25)}60%{box-shadow:var(--sh-btn),0 12px 40px rgba(88,101,242,.65),0 0 0 10px rgba(88,101,242,0)}}
+@keyframes feat-btn-pulse{0%,100%{box-shadow:0 4px 18px rgba(88,101,242,.35)}60%{box-shadow:0 6px 30px rgba(88,101,242,.65)}}
+@keyframes feat-ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes feat-fade-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 #featLanding{display:none;position:relative;z-index:1}
 body.guest #featLanding{display:block}
 body.guest #mainApp{display:none}
 .feat-hero{
-  padding:5rem 2rem 3rem;text-align:center;
-  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(88,101,242,.28) 0%,transparent 65%);
+  padding:5.5rem 2rem 2.5rem;text-align:center;position:relative;overflow:hidden;
+  background:radial-gradient(ellipse 90% 60% at 50% -5%,rgba(88,101,242,.32) 0%,transparent 65%);
+}
+.feat-hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 40% at 50% 110%,rgba(88,101,242,.12) 0%,transparent 65%);
 }
 .feat-hero-logo{
   display:-webkit-inline-flex;display:inline-flex;-webkit-align-items:center;align-items:center;gap:.75rem;
-  font-size:2.2rem;font-weight:900;letter-spacing:-.04em;margin-bottom:1rem;
+  font-size:2.2rem;font-weight:900;letter-spacing:-.04em;margin-bottom:1.25rem;
+  animation:feat-fade-up .6s ease both;
 }
 .feat-hero-logo-icon{
-  width:56px;height:56px;
+  width:58px;height:58px;
   background:linear-gradient(145deg,#6875f5,#5865f2);
   border-radius:var(--r);
   display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
   font-size:1.5rem;
-  box-shadow:var(--sh-btn),0 8px 24px rgba(88,101,242,.35);
+  animation:feat-glow-pulse 3s ease-in-out infinite;
 }
-.feat-hero h1{font-size:2.8rem;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:1.2rem;text-shadow:0 2px 20px rgba(0,0,30,.6)}
+.feat-hero h1{
+  font-size:2.8rem;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:1rem;
+  text-shadow:0 2px 24px rgba(0,0,30,.7);
+  animation:feat-fade-up .6s .1s ease both;
+}
 @media(min-width:600px){.feat-hero h1{font-size:4rem}}
 @media(min-width:900px){.feat-hero h1{font-size:5.5rem}}
-.feat-hero .tagline{font-size:1rem;color:var(--muted);margin-bottom:2.5rem;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.6}
-.feat-hero-btns{display:-webkit-flex;display:flex;gap:1rem;-webkit-flex-wrap:wrap;flex-wrap:wrap;-webkit-justify-content:center;justify-content:center;margin-bottom:1.5rem}
-.feat-scroll-hint{font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.feat-hero .tagline{
+  font-size:1rem;color:var(--muted);margin-bottom:2rem;max-width:520px;
+  margin-left:auto;margin-right:auto;line-height:1.65;
+  animation:feat-fade-up .6s .18s ease both;
+}
+.feat-hero-btns{display:-webkit-flex;display:flex;gap:1rem;-webkit-flex-wrap:wrap;flex-wrap:wrap;-webkit-justify-content:center;justify-content:center;margin-bottom:1.5rem;animation:feat-fade-up .6s .26s ease both}
+.feat-hero-btns .btn-brand{animation:feat-btn-pulse 3s ease-in-out 1s infinite}
+.feat-hero-stats{
+  display:-webkit-inline-flex;display:inline-flex;gap:2rem;-webkit-flex-wrap:wrap;flex-wrap:wrap;
+  -webkit-justify-content:center;justify-content:center;
+  margin-bottom:1.25rem;
+  animation:feat-fade-up .6s .34s ease both;
+}
+.feat-hero-stat{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;gap:.1rem}
+.feat-hero-stat-val{font-size:1.4rem;font-weight:900;letter-spacing:-.03em;color:#fff}
+.feat-hero-stat-lbl{font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.feat-hero-stat-div{width:1px;height:2.2rem;background:var(--line2);-webkit-align-self:center;align-self:center}
+.feat-scroll-hint{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);animation:feat-fade-up .6s .42s ease both}
+/* scrolling ticker */
 .feat-ticker{
   overflow:hidden;border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line);
   padding:.7rem 0;background:var(--bg2);
   box-shadow:0 2px 12px rgba(0,0,20,.4);
 }
+.feat-ticker-track{
+  display:-webkit-flex;display:flex;
+  will-change:transform;
+}
 .feat-ticker-inner{
-  display:-webkit-flex;display:flex;gap:2.5rem;white-space:nowrap;
+  display:-webkit-flex;display:flex;gap:2.5rem;white-space:nowrap;padding-right:2.5rem;
   font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  -webkit-flex-shrink:0;flex-shrink:0;
 }
 .feat-ticker-dot{color:var(--brand);font-size:1rem}
 .feat-section{
@@ -907,37 +970,119 @@ body.guest #mainApp{display:none}
 .feat-visual{
   -webkit-flex:1;flex:1;min-width:260px;
   background:var(--bg2);border:1.5px solid var(--line2);border-radius:var(--r);
-  overflow:hidden;box-shadow:var(--sh-panel);position:relative;
+  overflow:hidden;box-shadow:var(--sh-panel),0 0 40px rgba(88,101,242,.08);position:relative;
 }
 .feat-visual::before{
   content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--brand),var(--brand2));
-  box-shadow:0 0 12px rgba(88,101,242,.5);
+  background:linear-gradient(90deg,var(--brand),var(--brand2),#a78bfa);
+  box-shadow:0 0 16px rgba(88,101,242,.6);z-index:1;
 }
-.feat-visual-inner{padding:1.5rem;background:var(--bg3)}
+.feat-visual-inner{padding:1.25rem;background:linear-gradient(160deg,var(--bg3) 0%,var(--bg2) 100%)}
+
+/* chips */
 .feat-chip{
-  display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  padding:.25rem .65rem;border-radius:99px;margin-bottom:.6rem;
+  display:-webkit-inline-flex;display:inline-flex;-webkit-align-items:center;align-items:center;gap:.35rem;
+  font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:.3rem .75rem;border-radius:99px;margin-bottom:.75rem;
 }
-.feat-chip-blue{background:rgba(88,101,242,.2);color:var(--brand);border:1px solid rgba(88,101,242,.35)}
-.feat-chip-purple{background:rgba(124,58,237,.2);color:#b47eff;border:1px solid rgba(124,58,237,.35)}
-.feat-chip-green{background:rgba(59,165,93,.2);color:var(--green);border:1px solid rgba(59,165,93,.35)}
-.feat-mock-card{
-  background:var(--bg2);border:1.5px solid var(--line2);border-radius:var(--r-sm);padding:.9rem;
-  box-shadow:var(--sh-card);margin-bottom:.6rem;
+.feat-chip-blue{background:rgba(88,101,242,.18);color:var(--brand);border:1px solid rgba(88,101,242,.4);box-shadow:0 0 12px rgba(88,101,242,.2)}
+.feat-chip-purple{background:rgba(124,58,237,.18);color:#b47eff;border:1px solid rgba(124,58,237,.4);box-shadow:0 0 12px rgba(124,58,237,.2)}
+.feat-chip-green{background:rgba(59,165,93,.18);color:var(--green);border:1px solid rgba(59,165,93,.4);box-shadow:0 0 12px rgba(59,165,93,.2)}
+
+/* player mock (feature 1) */
+.fmock-player{
+  background:#000;border-radius:var(--r-sm);overflow:hidden;margin-bottom:.75rem;
+  position:relative;aspect-ratio:16/9;
+  box-shadow:0 4px 20px rgba(0,0,20,.6);
 }
-.feat-mock-card:last-child{margin-bottom:0}
-.feat-mock-row{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:.6rem}
-.feat-mock-thumb{width:44px;height:60px;background:linear-gradient(145deg,var(--bg3),var(--bg4));border-radius:var(--r-xs);-webkit-flex-shrink:0;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,20,.4)}
-.feat-mock-info .t1{font-size:.75rem;font-weight:600;margin-bottom:.2rem}
-.feat-mock-info .t2{font-size:.65rem;color:var(--muted)}
+.fmock-player-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,#0d1b3e 0%,#1a0d3e 50%,#0d2a1a 100%);
+  opacity:.9;
+}
+.fmock-player-play{
+  position:absolute;inset:0;display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
+}
+.fmock-play-btn{
+  width:42px;height:42px;background:rgba(88,101,242,.85);border-radius:50%;
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
+  font-size:1rem;box-shadow:0 0 0 8px rgba(88,101,242,.2),0 0 24px rgba(88,101,242,.5);
+}
+.fmock-player-bar{
+  position:absolute;bottom:0;left:0;right:0;padding:.5rem .65rem .4rem;
+  background:linear-gradient(to top,rgba(0,0,10,.85),transparent);
+}
+.fmock-progress{height:3px;background:rgba(255,255,255,.2);border-radius:2px;margin-bottom:.3rem}
+.fmock-progress-fill{height:100%;width:38%;background:linear-gradient(90deg,var(--brand),#a78bfa);border-radius:2px;box-shadow:0 0 6px rgba(88,101,242,.6)}
+.fmock-time{font-size:.55rem;color:rgba(255,255,255,.6);font-family:var(--mono)}
+.fmock-srv-row{display:-webkit-flex;display:flex;gap:.4rem;-webkit-flex-wrap:wrap;flex-wrap:wrap}
+.fmock-srv{
+  font-size:.58rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:.25rem .6rem;border-radius:var(--r-xs);border:1px solid var(--line2);color:var(--muted);
+}
+.fmock-srv.on{background:rgba(88,101,242,.2);border-color:var(--brand);color:var(--brand);box-shadow:0 0 8px rgba(88,101,242,.2)}
+
+/* AI chat mock (feature 2) */
+.fmock-chat{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:.6rem}
+.fmock-msg{
+  padding:.6rem .8rem;border-radius:var(--r-sm);font-size:.75rem;line-height:1.5;max-width:92%;
+}
+.fmock-msg.user{
+  background:rgba(88,101,242,.18);border:1px solid rgba(88,101,242,.3);
+  color:rgba(255,255,255,.85);-webkit-align-self:flex-end;align-self:flex-end;
+  font-style:italic;border-radius:var(--r-sm) var(--r-sm) 2px var(--r-sm);
+}
+.fmock-msg.ai{
+  background:var(--bg2);border:1px solid var(--line2);color:rgba(255,255,255,.85);
+  -webkit-align-self:flex-start;align-self:flex-start;
+  border-radius:var(--r-sm) var(--r-sm) var(--r-sm) 2px;
+}
+.fmock-ai-label{font-size:.58rem;color:var(--brand);font-weight:700;margin-bottom:.2rem;display:block}
+.fmock-ai-title{font-weight:700;color:#fff}
+.fmock-ai-sub{font-size:.68rem;color:var(--muted);margin-top:.15rem}
+.fmock-stars{color:var(--gold);font-size:.65rem;margin-top:.2rem}
+.fmock-typing{
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:.25rem;
+  padding:.5rem .75rem;background:var(--bg2);border:1px solid var(--line2);border-radius:var(--r-sm) var(--r-sm) var(--r-sm) 2px;
+  width:fit-content;
+}
+.fmock-dot{width:5px;height:5px;background:var(--muted);border-radius:50%;animation:fmock-blink 1.2s ease-in-out infinite}
+.fmock-dot:nth-child(2){animation-delay:.2s}
+.fmock-dot:nth-child(3){animation-delay:.4s}
+@keyframes fmock-blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+
+/* device mock (feature 3) */
+.fmock-device-row{display:-webkit-flex;display:flex;gap:.6rem;margin-bottom:.75rem}
+.fmock-device{
+  -webkit-flex:1;flex:1;background:var(--bg2);border:1.5px solid var(--line2);border-radius:var(--r-sm);
+  padding:.7rem .5rem;text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,20,.3);
+}
+.fmock-device.hi{border-color:rgba(88,101,242,.45);background:rgba(88,101,242,.08);box-shadow:0 0 12px rgba(88,101,242,.15)}
+.fmock-device-icon{font-size:1.4rem;margin-bottom:.3rem;display:block}
+.fmock-device-lbl{font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.fmock-qual-row{display:-webkit-flex;display:flex;gap:.4rem}
+.fmock-qual{
+  -webkit-flex:1;flex:1;padding:.4rem .3rem;text-align:center;
+  font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  border:1px solid var(--line2);border-radius:var(--r-xs);color:var(--muted);
+}
+.fmock-qual.best{background:rgba(88,101,242,.15);border-color:var(--brand);color:var(--brand);box-shadow:0 0 8px rgba(88,101,242,.15)}
+.fmock-compat{font-size:.68rem;color:var(--muted);text-align:center;margin-top:.6rem;line-height:1.6}
 .feat-cta-strip{
-  text-align:center;padding:3rem 1.5rem 5rem;
-  background:radial-gradient(ellipse 70% 50% at 50% 50%,rgba(88,101,242,.16) 0%,transparent 65%);
+  text-align:center;padding:4rem 1.5rem 5rem;position:relative;overflow:hidden;
+  background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(88,101,242,.22) 0%,transparent 65%);
 }
-.feat-cta-strip h2{font-size:2rem;font-weight:900;letter-spacing:-.03em;margin-bottom:.5rem;text-transform:uppercase}
+.feat-cta-strip::before{
+  content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:340px;height:340px;border-radius:50%;
+  background:radial-gradient(circle,rgba(88,101,242,.18) 0%,transparent 70%);
+  pointer-events:none;
+}
+.feat-cta-strip h2{font-size:2rem;font-weight:900;letter-spacing:-.03em;margin-bottom:.5rem;text-transform:uppercase;position:relative}
 @media(min-width:600px){.feat-cta-strip h2{font-size:3rem}}
-.feat-cta-strip p{font-size:.9rem;color:var(--muted);margin-bottom:2rem}
+.feat-cta-strip p{font-size:.9rem;color:var(--muted);margin-bottom:2rem;position:relative}
 .feat-footer{
   background:var(--bg2);border-top:1.5px solid var(--line);
   padding:1.5rem;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;
@@ -1080,19 +1225,53 @@ body.guest #mainApp{display:none}
       <button class="btn btn-brand" onclick="goToAuth()">Get Started &mdash; It&rsquo;s Free</button>
       <button class="btn btn-outline" onclick="openStaticOverlay('about')">Learn More</button>
     </div>
+    <!-- Stats row -->
+    <div class="feat-hero-stats">
+      <div class="feat-hero-stat">
+        <span class="feat-hero-stat-val">4</span>
+        <span class="feat-hero-stat-lbl">Servers</span>
+      </div>
+      <div class="feat-hero-stat-div"></div>
+      <div class="feat-hero-stat">
+        <span class="feat-hero-stat-val">&#8734;</span>
+        <span class="feat-hero-stat-lbl">Titles</span>
+      </div>
+      <div class="feat-hero-stat-div"></div>
+      <div class="feat-hero-stat">
+        <span class="feat-hero-stat-val" style="color:var(--brand)">&#8369;0</span>
+        <span class="feat-hero-stat-lbl">Per Month</span>
+      </div>
+      <div class="feat-hero-stat-div"></div>
+      <div class="feat-hero-stat">
+        <span class="feat-hero-stat-val">&#129302;</span>
+        <span class="feat-hero-stat-lbl">AI Inside</span>
+      </div>
+    </div>
     <p class="feat-scroll-hint">&#11835; Scroll to explore &#11835;</p>
   </div>
-  <!-- Ticker -->
+  <!-- Ticker — two identical inner divs inside a track for seamless loop -->
   <div class="feat-ticker">
-    <div class="feat-ticker-inner">
-      <span>STREAM FREE</span><span class="feat-ticker-dot">&#9670;</span>
-      <span>NO SUBSCRIPTIONS</span><span class="feat-ticker-dot">&#9670;</span>
-      <span>MOVIES &amp; ANIME</span><span class="feat-ticker-dot">&#9670;</span>
-      <span>4 STREAMING SERVERS</span><span class="feat-ticker-dot">&#9670;</span>
-      <span>AI RECOMMENDATIONS</span><span class="feat-ticker-dot">&#9670;</span>
-      <span>ZERO BAYAD</span><span class="feat-ticker-dot">&#9670;</span>
-      <span>ZERO BITIN</span><span class="feat-ticker-dot">&#9670;</span>
-      <span>NOXFREE LANG</span><span class="feat-ticker-dot">&#9670;</span>
+    <div class="feat-ticker-track">
+      <div class="feat-ticker-inner">
+        <span>STREAM FREE</span><span class="feat-ticker-dot">&#9670;</span>
+        <span>NO SUBSCRIPTIONS</span><span class="feat-ticker-dot">&#9670;</span>
+        <span>MOVIES &amp; ANIME</span><span class="feat-ticker-dot">&#9670;</span>
+        <span>4 STREAMING SERVERS</span><span class="feat-ticker-dot">&#9670;</span>
+        <span>AI RECOMMENDATIONS</span><span class="feat-ticker-dot">&#9670;</span>
+        <span>ZERO BAYAD</span><span class="feat-ticker-dot">&#9670;</span>
+        <span>ZERO BITIN</span><span class="feat-ticker-dot">&#9670;</span>
+        <span>NOXFREE LANG</span><span class="feat-ticker-dot">&#9670;</span>
+      </div>
+      <div class="feat-ticker-inner" aria-hidden="true">
+        <span>STREAM FREE</span><span class="feat-ticker-dot">&#9670;</span>
+        <span>NO SUBSCRIPTIONS</span><span class="feat-ticker-dot">&#9670;</span>
+        <span>MOVIES &amp; ANIME</span><span class="feat-ticker-dot">&#9670;</span>
+        <span>4 STREAMING SERVERS</span><span class="feat-ticker-dot">&#9670;</span>
+        <span>AI RECOMMENDATIONS</span><span class="feat-ticker-dot">&#9670;</span>
+        <span>ZERO BAYAD</span><span class="feat-ticker-dot">&#9670;</span>
+        <span>ZERO BITIN</span><span class="feat-ticker-dot">&#9670;</span>
+        <span>NOXFREE LANG</span><span class="feat-ticker-dot">&#9670;</span>
+      </div>
     </div>
   </div>
   <!-- Feature 1 -->
@@ -1105,23 +1284,22 @@ body.guest #mainApp{display:none}
     <div class="feat-visual">
       <div class="feat-visual-inner">
         <span class="feat-chip feat-chip-blue">&#9654; Now Playing</span>
-        <div class="feat-mock-card">
-          <div class="feat-mock-row">
-            <div class="feat-mock-thumb" style="background:linear-gradient(145deg,#1e3a5f,#2563eb)"></div>
-            <div class="feat-mock-info"><div class="t1">4 Streaming Servers</div><div class="t2">Videasy &bull; VidSrc &bull; 2Embed &bull; AllManga</div></div>
+        <!-- mini player mock -->
+        <div class="fmock-player">
+          <div class="fmock-player-bg"></div>
+          <div class="fmock-player-play"><div class="fmock-play-btn">&#9654;</div></div>
+          <div class="fmock-player-bar">
+            <div class="fmock-progress"><div class="fmock-progress-fill"></div></div>
+            <div class="fmock-time">24:12 &nbsp;/&nbsp; 1:52:04</div>
           </div>
         </div>
-        <div class="feat-mock-card">
-          <div class="feat-mock-row">
-            <div class="feat-mock-thumb" style="background:linear-gradient(145deg,#3b1a5f,#7c3aed)"></div>
-            <div class="feat-mock-info"><div class="t1">Anime &amp; Series</div><div class="t2">Season / episode selection</div></div>
-          </div>
-        </div>
-        <div class="feat-mock-card">
-          <div class="feat-mock-row">
-            <div class="feat-mock-thumb" style="background:linear-gradient(145deg,#1a3d2f,#059669)"></div>
-            <div class="feat-mock-info"><div class="t1">Continue Watching</div><div class="t2">Resume where you left off</div></div>
-          </div>
+        <!-- server selector chips -->
+        <div style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin-bottom:.4rem">Streaming Server</div>
+        <div class="fmock-srv-row">
+          <div class="fmock-srv on">Videasy</div>
+          <div class="fmock-srv">VidSrc</div>
+          <div class="fmock-srv">2Embed</div>
+          <div class="fmock-srv">AllManga</div>
         </div>
       </div>
     </div>
@@ -1135,14 +1313,21 @@ body.guest #mainApp{display:none}
     </div>
     <div class="feat-visual">
       <div class="feat-visual-inner">
-        <span class="feat-chip feat-chip-purple">AI Chat</span>
-        <div class="feat-mock-card">
-          <div style="font-size:.78rem;color:var(--muted);margin-bottom:.5rem;font-style:italic">&ldquo;Something like Inception but shorter?&rdquo;</div>
-          <div style="font-size:.75rem;color:var(--brand);font-weight:700">&#129302; Try: The Prestige (2006) &mdash; Same mind-bending twists...</div>
-        </div>
-        <div class="feat-mock-card">
-          <div style="font-size:.78rem;color:var(--muted);margin-bottom:.5rem;font-style:italic">&ldquo;Best anime to watch this week?&rdquo;</div>
-          <div style="font-size:.75rem;color:var(--brand);font-weight:700">&#129302; Demon Slayer S4 is trending + Attack on Titan Final...</div>
+        <span class="feat-chip feat-chip-purple">&#129302; AI Recommendations</span>
+        <div class="fmock-chat">
+          <div class="fmock-msg user">&ldquo;Something like Inception but shorter?&rdquo;</div>
+          <div class="fmock-msg ai">
+            <span class="fmock-ai-label">&#129302; NoXFree AI</span>
+            <div class="fmock-ai-title">The Prestige (2006)</div>
+            <div class="fmock-ai-sub">Mind-bending twists, same cerebral thriller energy. 130 min.</div>
+            <div class="fmock-stars">&#9733;&#9733;&#9733;&#9733;&#9733; 8.5/10</div>
+          </div>
+          <div class="fmock-msg user">&ldquo;Best anime this season?&rdquo;</div>
+          <div class="fmock-typing">
+            <div class="fmock-dot"></div>
+            <div class="fmock-dot"></div>
+            <div class="fmock-dot"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -1156,16 +1341,28 @@ body.guest #mainApp{display:none}
     </div>
     <div class="feat-visual">
       <div class="feat-visual-inner">
-        <span class="feat-chip feat-chip-green">Device Support</span>
-        <div class="feat-mock-card" style="text-align:center;padding:1.25rem">
-          <div style="font-size:2rem;margin-bottom:.5rem">&#128241; &#128187; &#128250;</div>
-          <div style="font-size:.78rem;font-weight:700">Mobile &bull; Desktop &bull; Smart TV</div>
-          <div style="font-size:.68rem;color:var(--muted);margin-top:.3rem">Chrome &bull; Firefox &bull; Safari &bull; Old Android WebView</div>
+        <span class="feat-chip feat-chip-green">&#10003; Device Support</span>
+        <div class="fmock-device-row">
+          <div class="fmock-device hi">
+            <span class="fmock-device-icon">&#128241;</span>
+            <div class="fmock-device-lbl">Mobile</div>
+          </div>
+          <div class="fmock-device">
+            <span class="fmock-device-icon">&#128187;</span>
+            <div class="fmock-device-lbl">Desktop</div>
+          </div>
+          <div class="fmock-device">
+            <span class="fmock-device-icon">&#128250;</span>
+            <div class="fmock-device-lbl">Smart TV</div>
+          </div>
         </div>
-        <div class="feat-mock-card">
-          <div style="font-size:.72rem;color:var(--muted)">Quality options: 480p / 720p / 1080p</div>
-          <div style="font-size:.72rem;color:var(--green);font-weight:700;margin-top:.2rem">&#10003; Auto-fallback if server fails</div>
+        <div style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin-bottom:.4rem">Stream Quality</div>
+        <div class="fmock-qual-row">
+          <div class="fmock-qual">480p</div>
+          <div class="fmock-qual">720p</div>
+          <div class="fmock-qual best">1080p &#10003;</div>
         </div>
+        <div class="fmock-compat">Chrome &bull; Firefox &bull; Safari &bull; Old Android<br><span style="color:var(--green)">&#10003;</span> Auto-fallback if server fails</div>
       </div>
     </div>
   </div>
@@ -1363,13 +1560,16 @@ body.guest #mainApp{display:none}
   </form>
 </div>
 
-<!-- ══ FLOATING BUTTONS ══ -->
+<!-- ══ FLOATING BUTTONS — collapsible ══ -->
 <div class="fabs" id="fabs" style="display:none">
-  <button class="fab fab-settings" id="settingsFab" title="Settings">&#9881;</button>
-  <button class="fab fab-comm" id="commFab" title="Community Chat">&#128172;<span id="commBadge2"></span></button>
-  <button class="fab fab-coffee" id="coffeeFab" title="Support NoXFree">&#9749;</button>
-  <button class="fab fab-ai" id="aiFab" title="AI Assistant">&#129302;</button>
-  <button class="fab" id="shieldFab" title="Ads &amp; Trackers Blocked" onclick="openBlockedModal()" style="position:relative">&#128737;<span id="shieldBadge"></span></button>
+  <div class="fab-menu-items" id="fabMenuItems">
+    <button class="fab fab-settings" id="settingsFab" title="Settings">&#9881;<span class="fab-label">Settings</span></button>
+    <button class="fab fab-comm" id="commFab" title="Community Chat">&#128172;<span id="commBadge2"></span><span class="fab-label">Chat</span></button>
+    <button class="fab fab-coffee" id="coffeeFab" title="Support NoXFree">&#9749;<span class="fab-label">Support</span></button>
+    <button class="fab fab-ai" id="aiFab" title="AI Assistant">&#129302;<span class="fab-label">AI</span></button>
+    <button class="fab" id="shieldFab" title="Ads &amp; Trackers Blocked" onclick="openBlockedModal()" style="position:relative">&#128737;<span id="shieldBadge"></span><span class="fab-label">Shield</span></button>
+  </div>
+  <button class="fab-toggle" id="fabToggle" title="Quick Menu">&#43;</button>
 </div>
 
 <!-- ══ COFFEE/SUPPORT MODAL ══ -->
@@ -2438,17 +2638,8 @@ function paintPlayer(m, loadVideo) {
   var actHtml =
     '<button class="btn btn-outline btn-sm" id="wlBtn">' + (isInWatchlist ? '&#9829; In Watchlist' : '&#9825; Add to Watchlist') + '</button>' +
     '<button class="btn btn-outline btn-sm" id="aiSuggestBtn">&#129302; Ask AI About This</button>' +
-    (isTV && seasons.length ? '<button class="btn btn-outline btn-sm" id="nextEpBtn">&#9654; Next Episode</button>' : '') +
-    (hasTmdb ? '<button class="btn btn-outline btn-sm" id="subDlBtn">&#128221; Subtitles</button>' : '') +
-    '<button class="btn btn-outline btn-sm" id="streamDlBtn">&#8659; Download</button>';
+    (isTV && seasons.length ? '<button class="btn btn-outline btn-sm" id="nextEpBtn">&#9654; Next Episode</button>' : '');
   document.getElementById("playerActions").innerHTML = actHtml;
-
-  // Wire subtitle button
-  var subBtn = document.getElementById("subDlBtn");
-  if (subBtn) subBtn.onclick = function() { openSubtitleModal(m); };
-  // Wire download button
-  var streamDlBtnEl = document.getElementById("streamDlBtn");
-  if (streamDlBtnEl) streamDlBtnEl.onclick = function() { openDownloadModal(m); };
 
   // Wire actions
   var wlBtn = document.getElementById("wlBtn");
@@ -2922,6 +3113,27 @@ for (var aqi = 0; aqi < aiQuicks.length; aqi++) {
     btn.onclick = function() { aiSend(btn.getAttribute("data-q")); };
   })(aiQuicks[aqi]);
 }
+// FAB toggle menu
+(function(){
+  var fabsEl = document.getElementById("fabs");
+  var toggleBtn = document.getElementById("fabToggle");
+  if (!toggleBtn || !fabsEl) return;
+  function closeFabMenu() { fabsEl.classList.remove("open"); }
+  toggleBtn.onclick = function(e) {
+    e.stopPropagation();
+    fabsEl.classList.toggle("open");
+  };
+  // close menu when any action fab is tapped
+  var items = document.querySelectorAll("#fabMenuItems .fab");
+  for (var i = 0; i < items.length; i++) {
+    items[i].addEventListener("click", function() { setTimeout(closeFabMenu, 180); }, true);
+  }
+  // close when tapping outside
+  document.addEventListener("click", function(e) {
+    if (!fabsEl.contains(e.target)) closeFabMenu();
+  });
+})();
+
 document.getElementById("aiFab").onclick = openAi;
 
 // ════════════════════════════════════════════════════════════
@@ -3664,6 +3876,30 @@ updateShieldBadge();
 // Start the app
 checkAuthAndStart();
 
+// ── Ticker scroll (JS-driven, reliable on all browsers/mobile) ──
+(function(){
+  function startTicker(){
+    var track=document.querySelector('.feat-ticker-track');
+    if(!track) return;
+    var inner=track.querySelector('.feat-ticker-inner');
+    if(!inner) return;
+    var w=inner.offsetWidth;
+    if(!w){setTimeout(startTicker,200);return;}
+    var x=0;
+    function tick(){
+      x-=0.45;
+      if(x<=-w) x=0;
+      track.style.transform='translateX('+x+'px)';
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){setTimeout(startTicker,150);});
+  } else {
+    setTimeout(startTicker,150);
+  }
+})();
 
 </script>
 </body>
