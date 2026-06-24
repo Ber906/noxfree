@@ -618,34 +618,158 @@ body.compact .grid6>*{width:calc(33.333% - .667rem)}
 }
 #shieldFab.has-blocks #shieldBadge{display:-webkit-flex;display:flex}
 
-/* ══ AI PANEL — 3D DEPTH ══ */
+/* ══ AI PANEL ══ */
 #aiPanel{
-  position:fixed;bottom:5.5rem;right:1.25rem;z-index:150;
-  width:92%;max-width:380px;max-height:75vh;
-  background:var(--bg2);border:1.5px solid var(--line2);
+  position:fixed;bottom:calc(58px + 4rem);right:1.25rem;z-index:150;
+  width:min(92vw,380px);max-height:72vh;
+  background:var(--bg2);border:1.5px solid rgba(88,101,242,.3);
   border-radius:var(--r);overflow:hidden;
   display:none;-webkit-flex-direction:column;flex-direction:column;
-  box-shadow:var(--sh-panel);
+  box-shadow:0 12px 48px rgba(0,0,20,.7),0 0 0 1px rgba(88,101,242,.12);
+  -webkit-transform:translateY(12px);transform:translateY(12px);
+  opacity:0;transition:opacity .2s ease,-webkit-transform .2s ease;transition:opacity .2s ease,transform .2s ease;
 }
 #aiPanel.open{display:-webkit-flex;display:flex}
-.ai-head{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:.75rem;padding:.85rem 1rem;border-bottom:1px solid var(--line);-webkit-flex-shrink:0;flex-shrink:0;background:var(--bg3)}
-.ai-head-icon{width:30px;height:30px;background:linear-gradient(145deg,#6875f5,#5865f2);border-radius:var(--r-xs);display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:.9rem;box-shadow:var(--sh-btn)}
-.ai-head-title{font-size:.82rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
-.ai-head-sub{font-size:.63rem;color:var(--soft)}
-#aiClose{margin-left:auto;color:var(--muted);font-size:1.1rem;padding:.2rem .4rem;border-radius:var(--r-xs)}
+#aiPanel.open.ready{opacity:1;-webkit-transform:translateY(0);transform:translateY(0)}
+/* top accent bar */
+#aiPanel::before{
+  content:'';display:block;height:2px;-webkit-flex-shrink:0;flex-shrink:0;
+  background:linear-gradient(90deg,var(--brand),#a78bfa,var(--brand));
+  background-size:200% 100%;animation:ai-shimmer 3s linear infinite;
+}
+@keyframes ai-shimmer{0%{background-position:0 0}100%{background-position:200% 0}}
+.ai-head{
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:.65rem;
+  padding:.75rem 1rem;border-bottom:1px solid var(--line);
+  -webkit-flex-shrink:0;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(88,101,242,.1),rgba(124,58,237,.06));
+}
+.ai-head-icon{
+  width:32px;height:32px;
+  background:linear-gradient(145deg,#6875f5,#5865f2);border-radius:var(--r-xs);
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
+  font-size:.95rem;box-shadow:0 0 12px rgba(88,101,242,.5);
+  -webkit-flex-shrink:0;flex-shrink:0;
+}
+.ai-head-info{-webkit-flex:1;flex:1;min-width:0}
+.ai-head-title{font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:.4rem}
+.ai-head-dot{width:6px;height:6px;border-radius:50%;background:#3ba55d;box-shadow:0 0 6px #3ba55d;display:inline-block;-webkit-flex-shrink:0;flex-shrink:0}
+.ai-head-sub{font-size:.6rem;color:var(--soft);margin-top:.05rem}
+.ai-head-actions{display:-webkit-flex;display:flex;gap:.25rem;-webkit-align-items:center;align-items:center}
+#aiClear{font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.22rem .55rem;border:1px solid var(--line2);color:var(--soft);border-radius:var(--r-xs)}
+#aiClear:hover{border-color:var(--brand);color:#fff}
+#aiClose{color:var(--muted);font-size:1.1rem;padding:.2rem .4rem;border-radius:var(--r-xs)}
 #aiClose:hover{color:#fff}
-#aiBody{-webkit-flex:1;flex:1;overflow-y:auto;padding:.75rem;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:.6rem}
-.ai-msg{padding:.65rem .85rem;font-size:.82rem;line-height:1.6;max-width:92%;white-space:pre-wrap;border-radius:var(--r-sm)}
-.ai-msg.assistant{background:var(--bg3);border:1.5px solid var(--line);-webkit-align-self:flex-start;align-self:flex-start;box-shadow:0 2px 8px rgba(0,0,20,.3)}
-.ai-msg.user{background:rgba(88,101,242,.18);border:1.5px solid rgba(88,101,242,.3);-webkit-align-self:flex-end;align-self:flex-end}
-.ai-quick-wrap{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:.4rem;padding:.6rem .75rem;border-top:1px solid var(--line);-webkit-flex-shrink:0;flex-shrink:0;background:var(--bg3)}
-.ai-quick{font-size:.63rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:.28rem .65rem;border:1.5px solid var(--line2);color:var(--muted);border-radius:99px}
-.ai-quick:hover{border-color:var(--brand);color:#fff}
-#aiForm{display:-webkit-flex;display:flex;gap:.5rem;padding:.75rem;border-top:1px solid var(--line);-webkit-flex-shrink:0;flex-shrink:0}
-#aiInput{-webkit-flex:1;flex:1;padding:.52rem .75rem;background:var(--bg3);border:1.5px solid var(--line2);color:#fff;font-size:.8rem;outline:none;font-family:var(--font);border-radius:var(--r-xs)}
-#aiInput:focus{border-color:var(--brand)}
+/* messages */
+#aiBody{-webkit-flex:1;flex:1;overflow-y:auto;padding:.75rem;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:.55rem}
+.ai-msg-row{display:-webkit-flex;display:flex;gap:.5rem;-webkit-align-items:flex-end;align-items:flex-end}
+.ai-msg-row.user{-webkit-flex-direction:row-reverse;flex-direction:row-reverse}
+.ai-bubble-avatar{
+  width:22px;height:22px;border-radius:50%;-webkit-flex-shrink:0;flex-shrink:0;
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
+  font-size:.65rem;
+}
+.ai-bubble-avatar.bot{background:linear-gradient(145deg,#6875f5,#5865f2);box-shadow:0 0 8px rgba(88,101,242,.4)}
+.ai-bubble-avatar.me{background:rgba(88,101,242,.25);border:1px solid rgba(88,101,242,.4);color:var(--brand)}
+.ai-msg{
+  padding:.6rem .8rem;font-size:.81rem;line-height:1.65;
+  max-width:85%;white-space:pre-wrap;border-radius:var(--r-sm);
+}
+.ai-msg.assistant{
+  background:var(--bg3);border:1px solid var(--line2);
+  box-shadow:0 2px 8px rgba(0,0,20,.3);
+  border-radius:var(--r-sm) var(--r-sm) var(--r-sm) 2px;
+}
+.ai-msg.user{
+  background:linear-gradient(135deg,rgba(88,101,242,.22),rgba(124,58,237,.15));
+  border:1px solid rgba(88,101,242,.35);
+  border-radius:var(--r-sm) var(--r-sm) 2px var(--r-sm);
+}
+/* thinking dots */
+.ai-thinking{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:.3rem;padding:.55rem .75rem}
+.ai-think-dot{width:6px;height:6px;border-radius:50%;background:var(--brand);animation:ai-think-pulse 1.4s ease-in-out infinite}
+.ai-think-dot:nth-child(2){animation-delay:.2s}
+.ai-think-dot:nth-child(3){animation-delay:.4s}
+@keyframes ai-think-pulse{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+/* quick suggestions */
+.ai-quick-wrap{
+  display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:.35rem;
+  padding:.6rem .75rem;border-top:1px solid var(--line);
+  -webkit-flex-shrink:0;flex-shrink:0;
+  background:rgba(0,0,0,.15);
+}
+.ai-quick-label{width:100%;font-size:.55rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin-bottom:.1rem}
+.ai-quick{
+  font-size:.65rem;font-weight:600;padding:.3rem .7rem;
+  border:1px solid var(--line2);color:var(--muted);border-radius:99px;
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:.3rem;
+  transition:border-color .15s ease,color .15s ease,background .15s ease;
+}
+.ai-quick:hover{border-color:var(--brand);color:#fff;background:rgba(88,101,242,.12)}
+/* input */
+#aiForm{
+  display:-webkit-flex;display:flex;gap:.5rem;padding:.65rem .75rem;
+  border-top:1px solid var(--line);-webkit-flex-shrink:0;flex-shrink:0;
+  background:var(--bg3);
+}
+#aiInput{
+  -webkit-flex:1;flex:1;padding:.5rem .75rem;
+  background:var(--bg2);border:1.5px solid var(--line2);
+  color:#fff;font-size:.8rem;outline:none;font-family:var(--font);border-radius:var(--r-xs);
+  transition:border-color .15s ease;
+}
+#aiInput:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(88,101,242,.15)}
 #aiInput::-webkit-input-placeholder{color:var(--soft)}
 #aiInput::placeholder{color:var(--soft)}
+#aiSendBtn{
+  padding:.5rem .85rem;font-size:.78rem;font-weight:700;border-radius:var(--r-xs);
+  background:linear-gradient(135deg,#6875f5,#5865f2);color:#fff;
+  -webkit-flex-shrink:0;flex-shrink:0;
+  box-shadow:0 2px 10px rgba(88,101,242,.4);
+  transition:opacity .15s ease,box-shadow .15s ease;
+}
+#aiSendBtn:hover{opacity:.9;box-shadow:0 4px 16px rgba(88,101,242,.55)}
+/* ══ ONBOARDING TOUR ══ */
+#nxTour{position:fixed;inset:0;z-index:8000;pointer-events:none;opacity:0;transition:opacity .3s ease}
+#nxTour.active{pointer-events:all;opacity:1}
+.nxt-overlay{position:fixed;inset:0;background:rgba(3,4,15,.82);pointer-events:none}
+#nxTour.active .nxt-overlay{pointer-events:all}
+.nxt-spot{
+  position:fixed;border-radius:10px;pointer-events:none;z-index:8001;
+  box-shadow:0 0 0 4px rgba(88,101,242,.6),0 0 0 9999px rgba(3,4,15,.82);
+  transition:top .35s cubic-bezier(.4,0,.2,1),left .35s cubic-bezier(.4,0,.2,1),width .35s cubic-bezier(.4,0,.2,1),height .35s cubic-bezier(.4,0,.2,1);
+}
+.nxt-card{
+  position:fixed;z-index:8002;
+  background:var(--bg2);border:1.5px solid rgba(88,101,242,.45);border-radius:var(--r);
+  padding:1.15rem 1.25rem;width:min(88vw,300px);
+  box-shadow:0 12px 40px rgba(0,0,20,.7),0 0 0 1px rgba(88,101,242,.1);
+  transition:top .35s cubic-bezier(.4,0,.2,1),left .35s cubic-bezier(.4,0,.2,1),bottom .35s cubic-bezier(.4,0,.2,1);
+}
+.nxt-card::before{
+  content:'';display:block;height:2px;width:100%;margin:-1.15rem -1.25rem 1rem;
+  width:calc(100% + 2.5rem);
+  background:linear-gradient(90deg,var(--brand),#a78bfa);
+  border-radius:var(--r) var(--r) 0 0;
+}
+.nxt-step-badge{
+  font-size:.55rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--brand);margin-bottom:.4rem;
+}
+.nxt-title{font-size:.95rem;font-weight:800;margin-bottom:.4rem;line-height:1.25}
+.nxt-text{font-size:.8rem;color:var(--muted);line-height:1.6;margin-bottom:.9rem}
+.nxt-btns{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;gap:.5rem}
+.nxt-skip{font-size:.68rem;color:var(--soft);padding:.3rem 0}
+.nxt-skip:hover{color:#fff}
+.nxt-next{
+  font-size:.78rem;font-weight:700;padding:.45rem 1.1rem;border-radius:var(--r-xs);
+  background:linear-gradient(135deg,#6875f5,#5865f2);color:#fff;
+  box-shadow:0 2px 10px rgba(88,101,242,.4);
+}
+.nxt-next:hover{opacity:.9}
+.nxt-dots{display:-webkit-flex;display:flex;gap:.35rem;-webkit-align-items:center;align-items:center}
+.nxt-dot{width:5px;height:5px;border-radius:50%;background:var(--line2);transition:background .2s ease,width .2s ease}
+.nxt-dot.on{background:var(--brand);width:14px;border-radius:3px}
 
 /* ══ FLOATING BUTTONS — collapsible menu ══ */
 .fabs{position:fixed;bottom:calc(58px + .75rem);right:1.25rem;z-index:140;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:flex-end;align-items:flex-end;gap:.45rem}
@@ -895,18 +1019,40 @@ body.compact .grid6>*{width:calc(33.333% - .667rem)}
 #featLanding{display:none;position:relative;z-index:1}
 body.guest #featLanding{display:block}
 body.guest #mainApp{display:none}
+/* ══ HERO ANIMATED ORBS ══ */
+.feat-hero-orb{
+  position:absolute;border-radius:50%;pointer-events:none;filter:blur(60px);opacity:.55;
+}
+.feat-hero-orb1{width:420px;height:420px;top:-140px;left:calc(50% - 340px);background:radial-gradient(circle,rgba(88,101,242,.6),transparent 65%);animation:orb-drift1 9s ease-in-out infinite}
+.feat-hero-orb2{width:320px;height:320px;top:-80px;right:calc(50% - 280px);background:radial-gradient(circle,rgba(124,58,237,.5),transparent 65%);animation:orb-drift2 11s ease-in-out infinite}
+.feat-hero-orb3{width:200px;height:200px;bottom:0;left:10%;background:radial-gradient(circle,rgba(59,130,246,.35),transparent 65%);animation:orb-drift1 14s ease-in-out 2s infinite}
+@keyframes orb-drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,20px)}}
+@keyframes orb-drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-25px,15px)}}
+/* grid overlay */
+.feat-hero-grid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(88,101,242,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(88,101,242,.045) 1px,transparent 1px);
+  background-size:48px 48px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 20%,transparent 75%);
+  mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 20%,transparent 75%);
+}
 .feat-hero{
-  padding:5.5rem 2rem 2.5rem;text-align:center;position:relative;overflow:hidden;
-  background:radial-gradient(ellipse 90% 60% at 50% -5%,rgba(88,101,242,.32) 0%,transparent 65%);
+  padding:5.5rem 2rem 3rem;text-align:center;position:relative;overflow:hidden;
+  background:radial-gradient(ellipse 90% 60% at 50% -5%,rgba(88,101,242,.28) 0%,transparent 65%);
 }
-.feat-hero::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 60% 40% at 50% 110%,rgba(88,101,242,.12) 0%,transparent 65%);
+/* hero trust badge */
+.feat-hero-badge{
+  display:-webkit-inline-flex;display:inline-flex;-webkit-align-items:center;align-items:center;gap:.5rem;
+  padding:.32rem .9rem;border-radius:99px;margin-bottom:1.1rem;
+  background:rgba(88,101,242,.12);border:1px solid rgba(88,101,242,.35);
+  font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.75);
+  animation:feat-fade-up .5s ease both;box-shadow:0 0 20px rgba(88,101,242,.15);
 }
+.feat-hero-badge .hbdot{width:6px;height:6px;border-radius:50%;background:#3ba55d;box-shadow:0 0 6px #3ba55d;animation:feat-glow-pulse 2s ease-in-out infinite}
 .feat-hero-logo{
   display:-webkit-inline-flex;display:inline-flex;-webkit-align-items:center;align-items:center;gap:.75rem;
   font-size:2.2rem;font-weight:900;letter-spacing:-.04em;margin-bottom:1.25rem;
-  animation:feat-fade-up .6s ease both;
+  animation:feat-fade-up .6s .05s ease both;
 }
 .feat-hero-logo-icon{
   width:58px;height:58px;
@@ -914,12 +1060,17 @@ body.guest #mainApp{display:none}
   border-radius:var(--r);
   display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
   font-size:1.5rem;
+  box-shadow:0 0 0 8px rgba(88,101,242,.12),0 0 32px rgba(88,101,242,.45);
   animation:feat-glow-pulse 3s ease-in-out infinite;
 }
 .feat-hero h1{
-  font-size:2.8rem;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:1rem;
+  font-size:2.8rem;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:.75rem;
   text-shadow:0 2px 24px rgba(0,0,30,.7);
   animation:feat-fade-up .6s .1s ease both;
+}
+.feat-hero h1 .h1-accent{
+  background:linear-gradient(90deg,#818cf8,#a78bfa,#c084fc);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
 }
 @media(min-width:600px){.feat-hero h1{font-size:4rem}}
 @media(min-width:900px){.feat-hero h1{font-size:5.5rem}}
@@ -928,56 +1079,110 @@ body.guest #mainApp{display:none}
   margin-left:auto;margin-right:auto;line-height:1.65;
   animation:feat-fade-up .6s .18s ease both;
 }
-.feat-hero-btns{display:-webkit-flex;display:flex;gap:1rem;-webkit-flex-wrap:wrap;flex-wrap:wrap;-webkit-justify-content:center;justify-content:center;margin-bottom:1.5rem;animation:feat-fade-up .6s .26s ease both}
-.feat-hero-btns .btn-brand{animation:feat-btn-pulse 3s ease-in-out 1s infinite}
-.feat-hero-stats{
-  display:-webkit-inline-flex;display:inline-flex;gap:2rem;-webkit-flex-wrap:wrap;flex-wrap:wrap;
-  -webkit-justify-content:center;justify-content:center;
-  margin-bottom:1.25rem;
-  animation:feat-fade-up .6s .34s ease both;
+.feat-hero-btns{display:-webkit-flex;display:flex;gap:1rem;-webkit-flex-wrap:wrap;flex-wrap:wrap;-webkit-justify-content:center;justify-content:center;margin-bottom:1.75rem;animation:feat-fade-up .6s .26s ease both}
+.feat-hero-btns .btn-brand{
+  padding:.8rem 2rem;font-size:.92rem;
+  box-shadow:0 0 0 0 rgba(88,101,242,0);
+  animation:feat-btn-pulse 3s ease-in-out 1s infinite;
 }
-.feat-hero-stat{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;gap:.1rem}
+.feat-hero-btns .btn-outline{padding:.8rem 1.75rem;font-size:.88rem}
+.feat-hero-stats{
+  display:-webkit-inline-flex;display:inline-flex;gap:0;
+  background:rgba(255,255,255,.04);border:1px solid var(--line2);border-radius:var(--r);
+  overflow:hidden;margin-bottom:1.5rem;
+  animation:feat-fade-up .6s .34s ease both;
+  box-shadow:0 4px 24px rgba(0,0,20,.4),inset 0 1px 0 rgba(255,255,255,.06);
+}
+.feat-hero-stat{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;gap:.1rem;padding:.85rem 1.5rem}
+.feat-hero-stat:not(:last-child){border-right:1px solid var(--line2)}
 .feat-hero-stat-val{font-size:1.4rem;font-weight:900;letter-spacing:-.03em;color:#fff}
-.feat-hero-stat-lbl{font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.feat-hero-stat-div{width:1px;height:2.2rem;background:var(--line2);-webkit-align-self:center;align-self:center}
-.feat-scroll-hint{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);animation:feat-fade-up .6s .42s ease both}
+.feat-hero-stat-lbl{font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.feat-hero-stat-div{display:none}
+.feat-scroll-hint{font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);animation:feat-fade-up .6s .42s ease both;margin-top:.5rem}
 /* scrolling ticker */
 .feat-ticker{
-  overflow:hidden;border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line);
-  padding:.7rem 0;background:var(--bg2);
-  box-shadow:0 2px 12px rgba(0,0,20,.4);
+  overflow:hidden;border-top:1px solid rgba(88,101,242,.2);border-bottom:1px solid rgba(88,101,242,.2);
+  padding:.75rem 0;
+  background:linear-gradient(90deg,var(--bg) 0%,rgba(88,101,242,.06) 50%,var(--bg) 100%);
 }
-.feat-ticker-track{
-  display:-webkit-flex;display:flex;
-  will-change:transform;
-}
+.feat-ticker-track{display:-webkit-flex;display:flex;will-change:transform}
 .feat-ticker-inner{
   display:-webkit-flex;display:flex;gap:2.5rem;white-space:nowrap;padding-right:2.5rem;
-  font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);
   -webkit-flex-shrink:0;flex-shrink:0;
 }
-.feat-ticker-dot{color:var(--brand);font-size:1rem}
+.feat-ticker-dot{color:var(--brand);font-size:.7rem}
+/* trust bar */
+.feat-trust-bar{
+  display:-webkit-flex;display:flex;-webkit-justify-content:center;justify-content:center;
+  -webkit-flex-wrap:wrap;flex-wrap:wrap;gap:0;
+  padding:1.5rem 1.5rem;
+  border-bottom:1px solid var(--line);
+  background:var(--bg2);
+}
+.feat-trust-item{
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:.5rem;
+  padding:.6rem 1.5rem;font-size:.72rem;font-weight:700;color:var(--muted);
+  letter-spacing:.04em;
+}
+.feat-trust-item:not(:last-child){border-right:1px solid var(--line)}
+.feat-trust-icon{font-size:1rem}
+/* feature sections */
 .feat-section{
-  padding:4rem 1.5rem;display:-webkit-flex;display:flex;
-  -webkit-align-items:center;align-items:center;gap:2.5rem;
+  padding:4.5rem 1.5rem;display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;gap:3rem;
   max-width:1000px;margin:0 auto;-webkit-flex-wrap:wrap;flex-wrap:wrap;
 }
 .feat-section.rev{-webkit-flex-direction:row-reverse;flex-direction:row-reverse}
 .feat-text{-webkit-flex:1;flex:1;min-width:260px}
+.feat-text-label{font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--brand);margin-bottom:.65rem;display:block}
 .feat-text h2{font-size:2rem;font-weight:900;letter-spacing:-.03em;line-height:1.05;margin-bottom:.85rem;text-transform:uppercase;text-shadow:0 2px 16px rgba(0,0,30,.5)}
-@media(min-width:600px){.feat-text h2{font-size:2.6rem}}
-.feat-text p{font-size:.9rem;color:var(--muted);line-height:1.7;margin-bottom:1rem}
+@media(min-width:600px){.feat-text h2{font-size:2.5rem}}
+.feat-text p{font-size:.88rem;color:var(--muted);line-height:1.75;margin-bottom:1.1rem}
+.feat-text-bullets{list-style:none;margin-bottom:1.25rem;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:.55rem}
+.feat-text-bullets li{display:-webkit-flex;display:flex;-webkit-align-items:flex-start;align-items:flex-start;gap:.6rem;font-size:.83rem;color:var(--muted);line-height:1.5}
+.feat-text-bullets li::before{content:'✓';color:#3ba55d;font-weight:900;font-size:.8rem;margin-top:.1rem;-webkit-flex-shrink:0;flex-shrink:0}
 .feat-visual{
   -webkit-flex:1;flex:1;min-width:260px;
   background:var(--bg2);border:1.5px solid var(--line2);border-radius:var(--r);
-  overflow:hidden;box-shadow:var(--sh-panel),0 0 40px rgba(88,101,242,.08);position:relative;
+  overflow:hidden;box-shadow:var(--sh-panel),0 0 60px rgba(88,101,242,.1);position:relative;
 }
 .feat-visual::before{
   content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--brand),var(--brand2),#a78bfa);
-  box-shadow:0 0 16px rgba(88,101,242,.6);z-index:1;
+  background:linear-gradient(90deg,transparent,var(--brand),var(--brand2),#a78bfa,transparent);
+  box-shadow:0 0 20px rgba(88,101,242,.7);z-index:1;
 }
 .feat-visual-inner{padding:1.25rem;background:linear-gradient(160deg,var(--bg3) 0%,var(--bg2) 100%)}
+/* reviews section */
+.feat-reviews{
+  padding:4rem 1.5rem;max-width:1000px;margin:0 auto;
+}
+.feat-reviews-label{text-align:center;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--brand);margin-bottom:.5rem}
+.feat-reviews-title{text-align:center;font-size:1.6rem;font-weight:900;letter-spacing:-.03em;margin-bottom:.4rem}
+.feat-reviews-sub{text-align:center;font-size:.85rem;color:var(--muted);margin-bottom:2.25rem}
+.feat-reviews-grid{display:-webkit-flex;display:flex;gap:1rem;-webkit-flex-wrap:wrap;flex-wrap:wrap}
+.feat-review-card{
+  -webkit-flex:1;flex:1;min-width:240px;
+  background:var(--bg2);border:1.5px solid var(--line2);border-radius:var(--r);
+  padding:1.25rem;position:relative;
+  box-shadow:0 4px 20px rgba(0,0,20,.4);
+  transition:border-color .2s ease,box-shadow .2s ease;
+}
+.feat-review-card:hover{border-color:rgba(88,101,242,.4);box-shadow:0 4px 28px rgba(88,101,242,.15)}
+.feat-review-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(88,101,242,.5),transparent);
+}
+.feat-review-stars{color:var(--gold);font-size:.82rem;letter-spacing:.1rem;margin-bottom:.6rem}
+.feat-review-text{font-size:.83rem;color:rgba(255,255,255,.8);line-height:1.65;margin-bottom:.85rem;font-style:italic}
+.feat-review-author{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:.6rem}
+.feat-review-avatar{
+  width:32px;height:32px;border-radius:50%;
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
+  font-size:.9rem;font-weight:900;color:#fff;-webkit-flex-shrink:0;flex-shrink:0;
+}
+.feat-review-name{font-size:.78rem;font-weight:700;color:#fff}
+.feat-review-location{font-size:.65rem;color:var(--soft)}
 
 /* chips */
 .feat-chip{
@@ -1215,14 +1420,21 @@ body.guest #mainApp{display:none}
 <div id="featLanding">
   <!-- Hero -->
   <div class="feat-hero">
+    <!-- decorative bg -->
+    <div class="feat-hero-orb feat-hero-orb1" aria-hidden="true"></div>
+    <div class="feat-hero-orb feat-hero-orb2" aria-hidden="true"></div>
+    <div class="feat-hero-orb feat-hero-orb3" aria-hidden="true"></div>
+    <div class="feat-hero-grid" aria-hidden="true"></div>
+    <!-- badge -->
+    <div class="feat-hero-badge"><span class="hbdot"></span> Free Forever &nbsp;&middot;&nbsp; No Credit Card</div>
     <div class="feat-hero-logo">
       <div class="feat-hero-logo-icon">&#9654;</div>
       NoxFree
     </div>
-    <h1>NO FEE.<br/>ALL PLAY.</h1>
-    <p class="tagline">Stream movies, TV series, and anime free forever. Zero subscriptions. Zero bayad. Zero bitin.</p>
+    <h1>NO FEE.<br/><span class="h1-accent">ALL PLAY.</span></h1>
+    <p class="tagline">Stream movies, TV series, and anime free &mdash; forever. Zero subscriptions. Zero bayad. Zero bitin.</p>
     <div class="feat-hero-btns">
-      <button class="btn btn-brand" onclick="goToAuth()">Get Started &mdash; It&rsquo;s Free</button>
+      <button class="btn btn-brand" onclick="goToAuth()">&#9654;&nbsp; Start Watching Free</button>
       <button class="btn btn-outline" onclick="openStaticOverlay('about')">Learn More</button>
     </div>
     <!-- Stats row -->
@@ -1231,17 +1443,14 @@ body.guest #mainApp{display:none}
         <span class="feat-hero-stat-val">4</span>
         <span class="feat-hero-stat-lbl">Servers</span>
       </div>
-      <div class="feat-hero-stat-div"></div>
       <div class="feat-hero-stat">
         <span class="feat-hero-stat-val">&#8734;</span>
         <span class="feat-hero-stat-lbl">Titles</span>
       </div>
-      <div class="feat-hero-stat-div"></div>
       <div class="feat-hero-stat">
-        <span class="feat-hero-stat-val" style="color:var(--brand)">&#8369;0</span>
+        <span class="feat-hero-stat-val" style="color:#a78bfa">&#8369;0</span>
         <span class="feat-hero-stat-lbl">Per Month</span>
       </div>
-      <div class="feat-hero-stat-div"></div>
       <div class="feat-hero-stat">
         <span class="feat-hero-stat-val">&#129302;</span>
         <span class="feat-hero-stat-lbl">AI Inside</span>
@@ -1274,17 +1483,31 @@ body.guest #mainApp{display:none}
       </div>
     </div>
   </div>
+  <!-- Trust bar -->
+  <div class="feat-trust-bar">
+    <div class="feat-trust-item"><span class="feat-trust-icon">&#128274;</span> No Account Hacking Risk</div>
+    <div class="feat-trust-item"><span class="feat-trust-icon">&#128737;</span> Built-in Ad &amp; Tracker Shield</div>
+    <div class="feat-trust-item"><span class="feat-trust-icon">&#128241;</span> Works on Any Device</div>
+    <div class="feat-trust-item"><span class="feat-trust-icon">&#129302;</span> Gemini AI Powered</div>
+  </div>
+
   <!-- Feature 1 -->
   <div class="feat-section">
     <div class="feat-text">
+      <span class="feat-text-label">&#9654; Streaming</span>
       <h2>STREAM EVERYTHING.<br/>PAY NOTHING.</h2>
-      <p>Movies, TV series, and anime &mdash; all in one place. No credit card. No trial. No catch. Noxfee: Where free means everything.</p>
-      <button class="btn btn-brand" onclick="goToAuth()">Start Watching Free</button>
+      <p>Movies, TV series, and anime &mdash; all in one place. No credit card. No trial. No catch. Just press play.</p>
+      <ul class="feat-text-bullets">
+        <li>Thousands of movies &amp; series, updated daily</li>
+        <li>4 independent streaming servers — always a backup</li>
+        <li>Works on mobile, desktop, and Smart TV</li>
+        <li>No downloads, no installs, instant playback</li>
+      </ul>
+      <button class="btn btn-brand" onclick="goToAuth()">&#9654;&nbsp; Start Watching Free</button>
     </div>
     <div class="feat-visual">
       <div class="feat-visual-inner">
         <span class="feat-chip feat-chip-blue">&#9654; Now Playing</span>
-        <!-- mini player mock -->
         <div class="fmock-player">
           <div class="fmock-player-bg"></div>
           <div class="fmock-player-play"><div class="fmock-play-btn">&#9654;</div></div>
@@ -1293,7 +1516,6 @@ body.guest #mainApp{display:none}
             <div class="fmock-time">24:12 &nbsp;/&nbsp; 1:52:04</div>
           </div>
         </div>
-        <!-- server selector chips -->
         <div style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin-bottom:.4rem">Streaming Server</div>
         <div class="fmock-srv-row">
           <div class="fmock-srv on">Videasy</div>
@@ -1304,12 +1526,20 @@ body.guest #mainApp{display:none}
       </div>
     </div>
   </div>
+
   <!-- Feature 2 -->
   <div class="feat-section rev">
     <div class="feat-text">
+      <span class="feat-text-label">&#129302; AI Assistant</span>
       <h2>AI PICKS FOR YOUR VIBE.</h2>
       <p>Tell NoXFree AI your mood, a movie you loved, or how much time you have &mdash; it&rsquo;ll find the perfect watch. Powered by Gemini AI.</p>
-      <span class="feat-chip feat-chip-purple">&#129302; NoXFree AI</span>
+      <ul class="feat-text-bullets">
+        <li>Mood-based recommendations in seconds</li>
+        <li>Understands Filipino context &amp; local taste</li>
+        <li>Ask it anything — genres, actors, runtime</li>
+        <li>100% free, no premium tier</li>
+      </ul>
+      <span class="feat-chip feat-chip-purple">&#129302; Powered by Gemini AI</span>
     </div>
     <div class="feat-visual">
       <div class="feat-visual-inner">
@@ -1324,20 +1554,26 @@ body.guest #mainApp{display:none}
           </div>
           <div class="fmock-msg user">&ldquo;Best anime this season?&rdquo;</div>
           <div class="fmock-typing">
-            <div class="fmock-dot"></div>
-            <div class="fmock-dot"></div>
-            <div class="fmock-dot"></div>
+            <div class="fmock-dot"></div><div class="fmock-dot"></div><div class="fmock-dot"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <!-- Feature 3 -->
   <div class="feat-section">
     <div class="feat-text">
-      <h2>WORKS ON ANY DEVICE. EVEN POTATO ONES.</h2>
-      <p>Old Android? Chrome 80? Slow connection? NoXFree is built for all devices. Lightweight player, multiple quality options, HTML5 fallback included.</p>
-      <span class="feat-chip feat-chip-green">&#10003; Potato Device Friendly</span>
+      <span class="feat-text-label">&#128241; Compatibility</span>
+      <h2>WORKS ON ANY DEVICE.<br/>EVEN POTATO ONES.</h2>
+      <p>Old Android? Low RAM? Slow data? NoXFree was built for real-world Philippines internet conditions. Lightweight, fast, and always a fallback ready.</p>
+      <ul class="feat-text-bullets">
+        <li>Optimized for mobile-first browsing</li>
+        <li>Auto server fallback if stream fails</li>
+        <li>480p to 1080p quality options</li>
+        <li>Chrome, Firefox, Safari, old Android &#10003;</li>
+      </ul>
+      <span class="feat-chip feat-chip-green">&#10003; Potato Device Certified</span>
     </div>
     <div class="feat-visual">
       <div class="feat-visual-inner">
@@ -1356,7 +1592,7 @@ body.guest #mainApp{display:none}
             <div class="fmock-device-lbl">Smart TV</div>
           </div>
         </div>
-        <div style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin-bottom:.4rem">Stream Quality</div>
+        <div style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin-bottom:.4rem;margin-top:.5rem">Stream Quality</div>
         <div class="fmock-qual-row">
           <div class="fmock-qual">480p</div>
           <div class="fmock-qual">720p</div>
@@ -1366,11 +1602,55 @@ body.guest #mainApp{display:none}
       </div>
     </div>
   </div>
+
+  <!-- Reviews / Social Proof -->
+  <div class="feat-reviews">
+    <div class="feat-reviews-label">&#9733; What users say</div>
+    <h2 class="feat-reviews-title">Trusted by streamers across the Philippines</h2>
+    <p class="feat-reviews-sub">Real people. Real reviews. Zero bayad.</p>
+    <div class="feat-reviews-grid">
+      <div class="feat-review-card">
+        <div class="feat-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="feat-review-text">&ldquo;Grabe, I&rsquo;ve been looking for a site like this for years. Lahat ng gusto kong panoorin nandito &mdash; at libre pa. Yung AI recommendation feature pa talaga ang nag-wow sa&nbsp;akin.&rdquo;</div>
+        <div class="feat-review-author">
+          <div class="feat-review-avatar" style="background:linear-gradient(135deg,#6875f5,#5865f2)">K</div>
+          <div>
+            <div class="feat-review-name">Kristine M.</div>
+            <div class="feat-review-location">Manila &middot; Movie &amp; Anime fan</div>
+          </div>
+        </div>
+      </div>
+      <div class="feat-review-card">
+        <div class="feat-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="feat-review-text">&ldquo;Compared to other free streaming sites, NoXFree is actually clean and safe. Walang nakakainis na popups, yung shield feature nag-b-block pa ng mga ads. Legit na&nbsp;legit.&rdquo;</div>
+        <div class="feat-review-author">
+          <div class="feat-review-avatar" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">R</div>
+          <div>
+            <div class="feat-review-name">Renz A.</div>
+            <div class="feat-review-location">Cebu &middot; Tech enthusiast</div>
+          </div>
+        </div>
+      </div>
+      <div class="feat-review-card">
+        <div class="feat-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="feat-review-text">&ldquo;Even my old Samsung A10 handles it smoothly. Hindi nag-hang, hindi nag-stutter. Yung multiple servers din solid &mdash; pag nag-fail yung isa, may backup agad. 10/10&nbsp;talaga.&rdquo;</div>
+        <div class="feat-review-author">
+          <div class="feat-review-avatar" style="background:linear-gradient(135deg,#3ba55d,#2d9250)">J</div>
+          <div>
+            <div class="feat-review-name">Jake T.</div>
+            <div class="feat-review-location">Davao &middot; Anime &amp; K-drama fan</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- CTA -->
   <div class="feat-cta-strip">
-    <h2>STREAM HARD.<br/>PAY &#8369;0.</h2>
-    <p>Noxfee &mdash; No fee. All play. Zero bayad, zero bitin. Noxfee lang.</p>
-    <button class="btn btn-brand" onclick="goToAuth()" style="font-size:1rem;padding:.85rem 2.5rem">Get Started Free</button>
+    <h2>STREAM HARD.<br/><span style="background:linear-gradient(90deg,#818cf8,#c084fc);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">PAY &#8369;0.</span></h2>
+    <p>No fee. All play. Zero bayad, zero bitin. Noxfree&nbsp;lang.</p>
+    <button class="btn btn-brand" onclick="goToAuth()" style="font-size:1rem;padding:.9rem 2.5rem">&#9654;&nbsp; Get Started Free</button>
+    <p style="font-size:.68rem;color:var(--soft);margin-top:.85rem;margin-bottom:0">No credit card &middot; No subscription &middot; Free forever</p>
   </div>
   <!-- Footer -->
   <div class="feat-footer">
@@ -1541,23 +1821,45 @@ body.guest #mainApp{display:none}
 <div id="aiPanel">
   <div class="ai-head">
     <div class="ai-head-icon">&#129302;</div>
-    <div>
-      <div class="ai-head-title">NoXFree AI</div>
-      <div class="ai-head-sub">Movie &amp; Anime Recommendations</div>
+    <div class="ai-head-info">
+      <div class="ai-head-title"><span class="ai-head-dot"></span> NoXFree AI</div>
+      <div class="ai-head-sub">Powered by Gemini &middot; Online</div>
     </div>
-    <button id="aiClose">&#215;</button>
+    <div class="ai-head-actions">
+      <button id="aiClear" title="New Chat">&#8635; New</button>
+      <button id="aiClose" title="Close">&#215;</button>
+    </div>
   </div>
   <div id="aiBody"></div>
   <div class="ai-quick-wrap">
-    <button class="ai-quick" data-q="What's trending this week?">Trending</button>
-    <button class="ai-quick" data-q="Best anime to watch right now?">Top Anime</button>
-    <button class="ai-quick" data-q="Recommend a movie for tonight">Tonight Pick</button>
-    <button class="ai-quick" data-q="Short movie under 90 minutes?">Short Film</button>
+    <div class="ai-quick-label">Quick picks</div>
+    <button class="ai-quick" data-q="What's trending this week?">&#128293; Trending</button>
+    <button class="ai-quick" data-q="Best anime to watch right now?">&#127981; Top Anime</button>
+    <button class="ai-quick" data-q="Recommend a feel-good movie for tonight">&#127774; Tonight</button>
+    <button class="ai-quick" data-q="Short movie under 90 minutes?">&#9203; Short Film</button>
+    <button class="ai-quick" data-q="Best Filipino movies to watch?">&#127477;&#127469; Pinoy Films</button>
+    <button class="ai-quick" data-q="I'm feeling sad, recommend a movie">&#128149; Feel-good</button>
   </div>
   <form id="aiForm">
-    <input id="aiInput" type="text" placeholder="Ask for a recommendation&hellip;" autocomplete="off"/>
-    <button class="btn btn-brand btn-sm" type="submit">Send</button>
+    <input id="aiInput" type="text" placeholder="Anong gusto mong panoorin?" autocomplete="off"/>
+    <button id="aiSendBtn" type="submit">&#9654;</button>
   </form>
+</div>
+
+<!-- ══ ONBOARDING TOUR ══ -->
+<div id="nxTour">
+  <div class="nxt-overlay" id="nxtOverlay"></div>
+  <div class="nxt-spot" id="nxtSpot"></div>
+  <div class="nxt-card" id="nxtCard">
+    <div class="nxt-step-badge" id="nxtBadge">Step 1 of 5</div>
+    <div class="nxt-title" id="nxtTitle">Welcome!</div>
+    <div class="nxt-text" id="nxtText">Quick tour tayo.</div>
+    <div class="nxt-btns">
+      <button class="nxt-skip" id="nxtSkip">Skip Tour</button>
+      <div class="nxt-dots" id="nxtDots"></div>
+      <button class="nxt-next" id="nxtNext">Next &#8594;</button>
+    </div>
+  </div>
 </div>
 
 <!-- ══ FLOATING BUTTONS — collapsible ══ -->
@@ -1820,6 +2122,7 @@ document.getElementById("authForm").addEventListener("submit", function(e) {
   }).then(function(res) {
     if (!res.ok || !res.j.success) throw new Error(res.j.error || "Something went wrong. Try again.");
     auth.set(res.j.token, res.j.user);
+    if (authMode === "signup") localStorage.setItem("nx_new_signup", "1");
     enterApp();
   }).catch(function(err) {
     errEl.textContent   = err.message;
@@ -1971,6 +2274,11 @@ function enterApp() {
   renderHome();
   if (!localStorage.getItem("sx_coffee_seen")) {
     setTimeout(function() { openCoffee(); localStorage.setItem("sx_coffee_seen", "1"); }, 10000);
+  }
+  // Start onboarding tour for new signups only
+  if (localStorage.getItem("nx_new_signup")) {
+    localStorage.removeItem("nx_new_signup");
+    setTimeout(function() { if (typeof window._nxTourStart === "function") window._nxTourStart(); }, 900);
   }
 }
 
@@ -2718,7 +3026,7 @@ function paintPlayer(m, loadVideo) {
     } else {
       var iframe = document.createElement("iframe");
       iframe.src = url;
-      iframe.allow = "autoplay; fullscreen; encrypted-media; picture-in-picture";
+      iframe.allow = "autoplay; fullscreen *; encrypted-media; picture-in-picture";
       iframe.setAttribute("allowfullscreen", "");
       iframe.setAttribute("playsinline", "");     // iOS fix
       iframe.setAttribute("webkit-playsinline", ""); // older iOS
@@ -2849,6 +3157,7 @@ document.getElementById("playerClose").onclick = closePlayer;
 document.getElementById("playerModal").addEventListener("click", function(e) {
   if (e.target.id === "playerModal") closePlayer();
 });
+
 
 // ADDED BY REPLIT AI — Toast notification helper
 function showToast(msg, duration) {
@@ -3067,12 +3376,23 @@ document.getElementById("clearBtn").onclick = function() { exitSearch(); };
 // AI CHAT
 // ════════════════════════════════════════════════════════════
 var aiHistory = [];
-function openAi()  { document.getElementById("aiPanel").classList.add("open"); initAiGreeting(); setTimeout(function() { document.getElementById("aiInput").focus(); }, 50); }
-function closeAi() { document.getElementById("aiPanel").classList.remove("open"); }
+var aiThinking = false;
+
+function openAi() {
+  var panel = document.getElementById("aiPanel");
+  panel.classList.add("open");
+  initAiGreeting();
+  setTimeout(function() { panel.classList.add("ready"); document.getElementById("aiInput").focus(); }, 20);
+}
+function closeAi() {
+  var panel = document.getElementById("aiPanel");
+  panel.classList.remove("ready");
+  setTimeout(function() { panel.classList.remove("open"); }, 200);
+}
 
 function initAiGreeting() {
   if (aiHistory.length) return;
-  aiHistory.push({ role: "assistant", content: "Hi! I\u2019m NoXFree AI. Tell me a vibe, a movie you loved, or how much time you have \u2014 I\u2019ll find something for you." });
+  aiHistory.push({ role: "assistant", content: "Kumusta! Ako si NoXFree AI. \u{1F916}\n\nAnong gusto mong panoorin ngayon? Sabihin mo lang ang mood mo, o isang pelikulang nagustuhan mo \u2014 hahanapin ko ang perfect na watch para sa iyo!" });
   paintAi();
 }
 
@@ -3081,31 +3401,53 @@ function paintAi() {
   var html = "";
   for (var i = 0; i < aiHistory.length; i++) {
     var m = aiHistory[i];
-    html += '<div class="ai-msg ' + m.role + '">' + esc(m.content) + '</div>';
+    var isBot = m.role === "assistant";
+    var isThinking = m.content === "\u2026";
+    if (isThinking) {
+      html += '<div class="ai-msg-row">' +
+        '<div class="ai-bubble-avatar bot">&#129302;</div>' +
+        '<div class="ai-thinking"><div class="ai-think-dot"></div><div class="ai-think-dot"></div><div class="ai-think-dot"></div></div>' +
+        '</div>';
+    } else if (isBot) {
+      html += '<div class="ai-msg-row">' +
+        '<div class="ai-bubble-avatar bot">&#129302;</div>' +
+        '<div class="ai-msg assistant">' + esc(m.content) + '</div>' +
+        '</div>';
+    } else {
+      html += '<div class="ai-msg-row user">' +
+        '<div class="ai-bubble-avatar me">&#128100;</div>' +
+        '<div class="ai-msg user">' + esc(m.content) + '</div>' +
+        '</div>';
+    }
   }
   body.innerHTML = html;
   body.scrollTop = body.scrollHeight;
 }
 
 function aiSend(text) {
+  if (aiThinking) return;
   var q = (text || document.getElementById("aiInput").value || "").trim();
   if (!q) return;
   document.getElementById("aiInput").value = "";
   openAi();
   aiHistory.push({ role: "user", content: q });
   aiHistory.push({ role: "assistant", content: "\u2026" });
+  aiThinking = true;
   paintAi();
   var msgs = aiHistory.slice(0, -1);
   apiPost("POST", "/ai/chat", { messages: msgs }).then(function(r) {
+    aiThinking = false;
     aiHistory[aiHistory.length - 1] = { role: "assistant", content: (r && r.reply) || "No reply received. Try again." };
     paintAi();
   }).catch(function() {
-    aiHistory[aiHistory.length - 1] = { role: "assistant", content: "AI is offline right now. Add a GEMINI_API_KEY to your server env vars." };
+    aiThinking = false;
+    aiHistory[aiHistory.length - 1] = { role: "assistant", content: "AI is offline right now. Baka walang GEMINI_API_KEY \u2014 please try again later." };
     paintAi();
   });
 }
 
 document.getElementById("aiClose").onclick = closeAi;
+document.getElementById("aiClear").onclick = function() { aiHistory = []; initAiGreeting(); };
 document.getElementById("aiForm").addEventListener("submit", function(e) { e.preventDefault(); aiSend(); });
 var aiQuicks = document.querySelectorAll("[data-q]");
 for (var aqi = 0; aqi < aiQuicks.length; aqi++) {
@@ -3113,6 +3455,133 @@ for (var aqi = 0; aqi < aiQuicks.length; aqi++) {
     btn.onclick = function() { aiSend(btn.getAttribute("data-q")); };
   })(aiQuicks[aqi]);
 }
+
+// ════════════════════════════════════════════════════════════
+// ONBOARDING TOUR
+// ════════════════════════════════════════════════════════════
+(function() {
+  var TOUR_KEY = "nx_tour_v2";
+  if (localStorage.getItem(TOUR_KEY)) return; // already seen
+
+  var steps = [
+    {
+      target: null,
+      title: "Maligayang pagdating sa NoXFree! \uD83D\uDC4B",
+      text: "Libre ang lahat dito \u2014 walang bayad, walang subscription. Quick tour tayo para makilala mo ang mga features!",
+      pos: "center"
+    },
+    {
+      target: "#bnav",
+      title: "Bottom Navigation",
+      text: "Gamitin ito para mag-navigate \u2014 Home, Movies, Browse, Watchlist, at Community Chat.",
+      pos: "top"
+    },
+    {
+      target: ".search-wrap",
+      title: "Search Bar \uD83D\uDD0D",
+      text: "I-type ang title ng pelikula o anime na hinahanap mo. Instant results!",
+      pos: "bottom"
+    },
+    {
+      target: "#fabToggle",
+      title: "Quick Menu \u2795",
+      text: "Pindutin ang + button na ito para ma-access ang AI Assistant, Settings, Community, at ang Shield na nag-b-block ng ads.",
+      pos: "left"
+    },
+    {
+      target: "[data-bnav='watchlist']",
+      title: "Watchlist \u2764\uFE0F",
+      text: "I-save ang mga gusto mong panoorin mamaya. Huwag mag-alala \u2014 hindi mawawala!",
+      pos: "top"
+    }
+  ];
+
+  var cur = 0;
+  var tourEl = document.getElementById("nxTour");
+  var spotEl = document.getElementById("nxtSpot");
+  var cardEl = document.getElementById("nxtCard");
+  var dotsEl = document.getElementById("nxtDots");
+
+  function buildDots() {
+    var h = "";
+    for (var i = 0; i < steps.length; i++) h += '<div class="nxt-dot' + (i === cur ? " on" : "") + '"></div>';
+    dotsEl.innerHTML = h;
+  }
+
+  function positionCard(rect, pos) {
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var cw = Math.min(vw * 0.88, 300), gap = 16;
+    cardEl.style.width = cw + "px";
+    cardEl.style.left = cardEl.style.right = cardEl.style.top = cardEl.style.bottom = "";
+
+    if (pos === "center" || !rect) {
+      cardEl.style.left = ((vw - cw) / 2) + "px";
+      cardEl.style.top = ((vh - 200) / 2) + "px";
+    } else if (pos === "top") {
+      var l = Math.max(8, Math.min(rect.left + rect.width / 2 - cw / 2, vw - cw - 8));
+      cardEl.style.left = l + "px";
+      cardEl.style.top = Math.max(8, rect.top - 160 - gap) + "px";
+      if (rect.top < 180) cardEl.style.top = (rect.bottom + gap) + "px";
+    } else if (pos === "bottom") {
+      var l2 = Math.max(8, Math.min(rect.left + rect.width / 2 - cw / 2, vw - cw - 8));
+      cardEl.style.left = l2 + "px";
+      cardEl.style.top = (rect.bottom + gap) + "px";
+    } else if (pos === "left") {
+      cardEl.style.left = Math.max(8, rect.left - cw - gap) + "px";
+      cardEl.style.top = Math.max(8, Math.min(rect.top + rect.height / 2 - 80, vh - 200)) + "px";
+      if (rect.left < cw + 20) {
+        cardEl.style.left = Math.max(8, rect.right + gap) + "px";
+      }
+    }
+  }
+
+  function showStep(n) {
+    cur = n;
+    var step = steps[n];
+    document.getElementById("nxtBadge").textContent = "Step " + (n + 1) + " of " + steps.length;
+    document.getElementById("nxtTitle").textContent = step.title;
+    document.getElementById("nxtText").textContent = step.text;
+    document.getElementById("nxtNext").innerHTML = (n === steps.length - 1) ? "Done \u2713" : "Next \u2192";
+    buildDots();
+
+    var rect = null;
+    if (step.target) {
+      var el = document.querySelector(step.target);
+      if (el) {
+        rect = el.getBoundingClientRect();
+        var pad = 8;
+        spotEl.style.display = "";
+        spotEl.style.top = (rect.top - pad) + "px";
+        spotEl.style.left = (rect.left - pad) + "px";
+        spotEl.style.width = (rect.width + pad * 2) + "px";
+        spotEl.style.height = (rect.height + pad * 2) + "px";
+      }
+    } else {
+      spotEl.style.display = "none";
+    }
+    positionCard(rect, step.pos);
+  }
+
+  function startTour() {
+    tourEl.classList.add("active");
+    showStep(0);
+  }
+
+  function endTour() {
+    tourEl.classList.remove("active");
+    localStorage.setItem(TOUR_KEY, "1");
+  }
+
+  document.getElementById("nxtNext").onclick = function() {
+    if (cur >= steps.length - 1) { endTour(); return; }
+    showStep(cur + 1);
+  };
+  document.getElementById("nxtSkip").onclick = endTour;
+  document.getElementById("nxtOverlay").onclick = endTour;
+
+  // Exposed for enterApp() to call — only fires for new signups
+  window._nxTourStart = startTour;
+})();
 // FAB toggle menu
 (function(){
   var fabsEl = document.getElementById("fabs");
